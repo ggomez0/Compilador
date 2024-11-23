@@ -1,0 +1,141 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BOOLEAN
+    FLOAT_NUMBER
+    IDENTIFIER
+    LIBRARY_NAME
+    NUMBER
+
+Grammar
+
+Rule 0     S' -> INICIO
+Rule 1     INICIO -> EMPEZAR LIBRERIAS CUERPO TERMINAR
+Rule 2     LIBRERIAS -> LIBRERIASP
+Rule 3     LIBRERIAS -> EMPTY
+Rule 4     LIBRERIASP -> extend LPAREN NOM_LIB RPAREN PTOCOMA LIBRERIAS
+Rule 5     LIBRERIASP -> extend LPAREN NOM_LIB RPAREN finLinea
+Rule 6     CUERPO -> DEF_rule CUERPO
+Rule 7     CUERPO -> ASSIGN_rule CUERPO
+Rule 8     CUERPO -> FUNC CUERPO
+Rule 9     CUERPO -> COMENTARIO CUERPO
+Rule 10    CUERPO -> IF_rule CUERPO
+Rule 11    CUERPO -> ELSE_rule CUERPO
+Rule 12    CUERPO -> WHILE_rule CUERPO
+Rule 13    CUERPO -> PIN_rule CUERPO
+Rule 14    CUERPO -> MOV CUERPO
+Rule 15    CUERPO -> EMPTY
+Rule 16    DEF_rule -> DEF TIPODATO nomVar ASSIGN VALORVAR finLinea
+Rule 17    TIPODATO -> palResInt
+Rule 18    TIPODATO -> palResString
+Rule 19    TIPODATO -> palResFloat
+Rule 20    TIPODATO -> palResBool
+Rule 21    ASSIGN_rule -> nomVar ASSIGN string finLinea
+Rule 22    ASSIGN_rule -> nomVar ASSIGN int finLinea
+Rule 23    ASSIGN_rule -> nomVar ASSIGN float finLinea
+Rule 24    ASSIGN_rule -> nomVar ASSIGN true finLinea
+Rule 25    ASSIGN_rule -> nomVar ASSIGN false finLinea
+Rule 26    ASSIGN_rule -> nomVar ASSIGN nomVar finLinea
+Rule 27    FUNC -> nomVar LPAREN PARAM_LIST RPAREN RETORNO finLinea
+Rule 28    FUNC -> nomVar LPAREN PARAM_LIST RPAREN finLinea
+Rule 29    PARAM_LIST -> TIPODATO nomVar
+Rule 30    PARAM_LIST -> TIPODATO nomVar PTOCOMA PARAM_LIST
+Rule 31    PARAM_LIST -> EMPTY
+Rule 32    COMENTARIO -> comBloque
+Rule 33    COMENTARIO -> comLinea
+Rule 34    IF_rule -> IF LPAREN COMPARACION RPAREN LBRACE CUERPO RBRACE finLinea
+Rule 35    ELSE_rule -> ELSE LPAREN COMPARACION RPAREN LBRACE CUERPO RBRACE finLinea
+Rule 36    WHILE_rule -> WHILE LPAREN COMPARACION RPAREN LBRACE CUERPO RBRACE finLinea
+Rule 37    COMPARACION -> VALORVAR comp VALORVAR
+Rule 38    COMPARACION -> nomVar comp VALORVAR
+Rule 39    COMPARACION -> nomVar comp nomVar
+Rule 40    COMPARACION -> false
+Rule 41    COMPARACION -> true
+Rule 42    COMPARACION -> nomVar
+Rule 43    VALORVAR -> string
+Rule 44    VALORVAR -> true
+Rule 45    VALORVAR -> false
+Rule 46    VALORVAR -> int
+Rule 47    VALORVAR -> float
+Rule 48    PIN_rule -> DEF PIN LPAREN PININ DOSPTOS INT RPAREN finLinea
+Rule 49    PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS INT RPAREN finLinea
+Rule 50    MOV -> ADEL LPAREN RPAREN finLinea
+Rule 51    MOV -> ATR LPAREN RPAREN finLinea
+Rule 52    MOV -> IZQ LPAREN RPAREN finLinea
+Rule 53    MOV -> DER LPAREN RPAREN finLinea
+Rule 54    MOV -> FREN LPAREN RPAREN finLinea
+Rule 55    MOV -> ESP LPAREN int RPAREN finLinea
+Rule 56    MOV -> ESP LPAREN float RPAREN finLinea
+Rule 57    EMPTY -> <empty>
+
+Terminals, with rules where they appear
+
+ADEL                 : 50
+ASSIGN               : 16 21 22 23 24 25 26
+ATR                  : 51
+BOOLEAN              : 
+DEF                  : 16 48 49
+DER                  : 53
+DOSPTOS              : 48 49
+ELSE                 : 35
+EMPEZAR              : 1
+ESP                  : 55 56
+FLOAT_NUMBER         : 
+FREN                 : 54
+IDENTIFIER           : 
+IF                   : 34
+IZQ                  : 52
+LBRACE               : 34 35 36
+LIBRARY_NAME         : 
+LPAREN               : 4 5 27 28 34 35 36 48 49 50 51 52 53 54 55 56
+NOM_LIB              : 4 5
+NUMBER               : 
+PIN                  : 48 49
+PININ                : 48
+PINOU                : 49
+PTOCOMA              : 4 30
+RBRACE               : 34 35 36
+RETORNO              : 27
+RPAREN               : 4 5 27 28 34 35 36 48 49 50 51 52 53 54 55 56
+TERMINAR             : 1
+WHILE                : 36
+comBloque            : 32
+comLinea             : 33
+comp                 : 37 38 39
+error                : 
+extend               : 4 5
+finLinea             : 5 16 21 22 23 24 25 26 27 28 34 35 36 48 49 50 51 52 53 54 55 56
+nomVar               : 16 21 22 23 24 25 26 26 27 28 29 30 38 39 39 42
+palResBool           : 20
+palResFloat          : 19
+palResInt            : 17
+palResString         : 18
+
+Nonterminals, with rules where they appear
+
+ASSIGN_rule          : 7
+COMENTARIO           : 9
+COMPARACION          : 34 35 36
+CUERPO               : 1 6 7 8 9 10 11 12 13 14 34 35 36
+DEF_rule             : 6
+ELSE_rule            : 11
+EMPTY                : 3 15 31
+FUNC                 : 8
+IF_rule              : 10
+INICIO               : 0
+INT                  : 48 49
+LIBRERIAS            : 1 4
+LIBRERIASP           : 2
+MOV                  : 14
+PARAM_LIST           : 27 28 30
+PIN_rule             : 13
+TIPODATO             : 16 29 30
+VALORVAR             : 16 37 37 38
+WHILE_rule           : 12
+false                : 25 40 45
+float                : 23 47 56
+int                  : 22 46 55
+string               : 21 43
+true                 : 24 41 44
+
