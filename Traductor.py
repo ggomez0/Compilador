@@ -41,29 +41,34 @@ def traductor(p,funcion,primer_pin=False,pin=False,primer_mov=False,mov=False):
 def trad_librerias(p):
     # Convertir el parámetro a una lista para acceder a sus caracteres
     list_p = list(p)
-    # Retorna la inclusión de la librería formateada
-    return "".join(["#include <"]+list_p[3:4]+[">"]+["\n"])
+    print ("####44",list_p)
+    # Retorna la inclusión de la librería formateada, cada una en una línea separada
+    return "\n".join([f"#include <{lib}>" for lib in list_p[3]]) + "\n"
 
 # Función para traducir la declaración de variables
 def trad_def(p):
     # Convertir el parámetro a una lista para acceder a sus caracteres
     list_p = list(p)
+    print ('###60', list_p)
+    print ('###61', list_p[2])
     # Determinar el tipo de variable y retornar la declaración formateada
-    if list_p[2] == 'entero':
-      return 'int  'f'{list_p[4]};'+"\n"
-    elif list_p[2] == 'texto':
-      return 'string  'f'{list_p[4]};'+"\n"
-    elif list_p[2] == 'logico':
-      return 'bool  'f'{list_p[4]};'+"\n"
-    elif list_p[2] == 'decimal':
-      return 'float  'f'{list_p[4]};'+"\n"
+    if list_p[2] == 'palResInt':
+      return 'int  ' + f'{list_p[4]};' + "\n"
+    elif list_p[2] == 'palResString':
+      return 'string  ' + f'{list_p[4]};' + "\n"
+    elif list_p[2] == 'palResBool':
+      return 'bool  ' + f'{list_p[4]};' + "\n"
+    elif list_p[2] == 'palResFloat':
+      return 'float  ' + f'{list_p[4]};' + "\n"
 
 # Función para traducir la asignación de valores a variables
 def trad_asign(p):
     # Convertir el parámetro a una lista para acceder a sus caracteres
     list_p = list(p)
+    print('###65')
+    print ('###60', list_p)
     # Retorna la asignación formateada
-    return f'{list_p[1]}:{list_p[2]}{list_p[3]};'+"\n"
+    return f'{list_p[1]} = {list_p[3]};' + "\n"
 
 # Función para traducir la configuración de pines
 def trad_pin(p):

@@ -21,20 +21,18 @@ reserved = {
     'texto': 'palResString',
     'decimal': 'palResFloat',
     'logico': 'palResBool',
-    'RETORNO': 'RETORNO'
+    'RETORNO': 'RETORNO',
+    'true': 'true',
+    'false': 'false'
 }
 
 tokens = [
-    'NUMBER',
-    'FLOAT_NUMBER',
+    'int',           # Changed from NUMBER
+    'float',         # Changed from FLOAT_NUMBER
+    'string',        # Added for string literals
     'NOM_LIB',
-    'BOOLEAN',
-    "nomVar",
+    'nomVar',
     'comp',
-
-    'IDENTIFIER',
-    'LIBRARY_NAME',
-
     'ASSIGN',
     'finLinea',
     'PTOCOMA',
@@ -43,12 +41,11 @@ tokens = [
     'LBRACE',  
     'RBRACE',  
     'DOSPTOS',    
-    
     'comBloque',
     'comLinea'
-    
 ] + list(reserved.values())
 
+# Token rules
 t_ASSIGN = r':='
 t_finLinea = r'\.'
 t_PTOCOMA = r';'
@@ -59,41 +56,34 @@ t_RBRACE = r'\}'
 t_DOSPTOS = r':'
 t_comBloque = r'//\*(.|\n)*\*//'
 t_comLinea = r'/.*'
-t_comp=r'(>|<|==|!=|<=|>=)'
+t_comp = r'(>|<|==|!=|<=|>=)'
 
-
-def t_nomVar(t):
-    r'[A-Za-z][A-Za-z0-9_-]*'
+def t_string(t):
+    r'"[A-Za-z0-9_-]+"'
     if t.value in reserved:
-        t.type = reserved[ t.value ]
+        t.type = reserved[t.value]
     return t
 
-def t_FLOAT_NUMBER(t):
+def t_float(t):
     r'\d+\.\d+'
     t.value = float(t.value)
     return t
 
-def t_NUMBER(t):
+def t_int(t):
     r'\d+'
     t.value = int(t.value)
     return t
 
 def t_NOM_LIB(t):
     r'"[^"]*"'
+    if t.value in reserved:
+        t.type = reserved[t.value]
     return t
 
-def t_BOOLEAN(t):
-    r'TRUE|FALSE'
-    t.value = (t.value == 'TRUE')
-    return t
-
-def t_LIBRARY_NAME(t):
-    r'[a-zA-Z0-9_]+\.[a-zA-Z]+'
-    return t
-
-def t_IDENTIFIER(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value, 'IDENTIFIER')
+def t_nomVar(t):
+    r'[A-Za-z][A-Za-z0-9_-]*'
+    if t.value in reserved:
+        t.type = reserved[ t.value ]
     return t
 
 def t_newline(t):

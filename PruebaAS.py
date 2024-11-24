@@ -15,7 +15,7 @@ except IndexError:
     data = ''
 
 try:
-        resultado = parser.parse(data)
-        print('¡Analisis sintáctico correcto! ✅')         
-except:
-        print('Analisis sintáctico incorrecto ❎')
+    resultado = parser.parse(data)
+    print('¡Análisis sintáctico correcto! ✅')         
+except Exception as e:
+    print(f'Análisis sintáctico incorrecto ❎: {e}')
