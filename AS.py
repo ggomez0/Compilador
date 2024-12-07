@@ -39,8 +39,7 @@ def p_LIBRERIASLIST(p):
 
 def p_CUERPO(p):
     '''CUERPO : INSTRUCCION CUERPO 
-              | INSTRUCCION
-              | EMPTY'''
+              | INSTRUCCION'''
     if len(p) == 3:
         if p[1] and p[2]:
             p[0] = [p[1]] + (p[2] if isinstance(p[2], list) else [p[2]])
@@ -48,10 +47,8 @@ def p_CUERPO(p):
             p[0] = [p[1]]
         else:
             p[0] = p[2] if p[2] else []
-    elif len(p) == 2:
-        p[0] = [p[1]] if p[1] else []
     else:
-        p[0] = []
+        p[0] = [p[1]] if p[1] else []
 
 def p_INSTRUCCION(p):
     '''INSTRUCCION : DEF_rule
@@ -61,9 +58,8 @@ def p_INSTRUCCION(p):
                    | IF_rule
                    | WHILE_rule
                    | PIN_rule
-                   | MOV
-                   | EMPTY '''
-    p[0]=p[1]
+                   | MOV'''
+    p[0] = p[1]
     pass
 
 def p_DEF_rule(p):

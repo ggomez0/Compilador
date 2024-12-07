@@ -5,20 +5,17 @@ def traductor(p, funcion, primer_pin=False, pin=False, primer_mov=False, mov=Fal
         if p:
             if pin:
                 if primer_pin:
-                    # Asegura que el `setup` solo se agregue una vez
                     if "void setup()" not in "".join(file_content):
                         file_content += ['void setup(){\n'] + ['\n'] + ['}\n']
                 index = file_content.index('\n')
-                file_content.insert(index, funcion(p))  # Inserta función traducida
+                file_content.insert(index, funcion(p))
                 fileWrite.write("".join(file_content))
                 return
             
             if mov:
                 if primer_mov:
-                    # Asegura que el `loop` solo se agregue una vez
                     if "void loop()" not in "".join(file_content):
                         file_content += ['void loop(){\n'] + ['\n'] + ['}\n']
-                # Encuentra índice adecuado para `loop`
                 index = file_content.index('\n', file_content.index('\n') + 1)
                 file_content.insert(index, funcion(p))
                 fileWrite.write("".join(file_content))
