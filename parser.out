@@ -1,141 +1,2168 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    BOOLEAN
-    FLOAT_NUMBER
-    IDENTIFIER
-    LIBRARY_NAME
-    NUMBER
-
 Grammar
 
 Rule 0     S' -> INICIO
 Rule 1     INICIO -> EMPEZAR LIBRERIAS CUERPO TERMINAR
 Rule 2     LIBRERIAS -> LIBRERIASP
 Rule 3     LIBRERIAS -> EMPTY
-Rule 4     LIBRERIASP -> extend LPAREN NOM_LIB RPAREN PTOCOMA LIBRERIAS
-Rule 5     LIBRERIASP -> extend LPAREN NOM_LIB RPAREN finLinea
-Rule 6     CUERPO -> DEF_rule CUERPO
-Rule 7     CUERPO -> ASSIGN_rule CUERPO
-Rule 8     CUERPO -> FUNC CUERPO
-Rule 9     CUERPO -> COMENTARIO CUERPO
-Rule 10    CUERPO -> IF_rule CUERPO
-Rule 11    CUERPO -> ELSE_rule CUERPO
-Rule 12    CUERPO -> WHILE_rule CUERPO
-Rule 13    CUERPO -> PIN_rule CUERPO
-Rule 14    CUERPO -> MOV CUERPO
-Rule 15    CUERPO -> EMPTY
-Rule 16    DEF_rule -> DEF TIPODATO nomVar ASSIGN VALORVAR finLinea
-Rule 17    TIPODATO -> palResInt
-Rule 18    TIPODATO -> palResString
-Rule 19    TIPODATO -> palResFloat
-Rule 20    TIPODATO -> palResBool
-Rule 21    ASSIGN_rule -> nomVar ASSIGN string finLinea
-Rule 22    ASSIGN_rule -> nomVar ASSIGN int finLinea
-Rule 23    ASSIGN_rule -> nomVar ASSIGN float finLinea
-Rule 24    ASSIGN_rule -> nomVar ASSIGN true finLinea
-Rule 25    ASSIGN_rule -> nomVar ASSIGN false finLinea
-Rule 26    ASSIGN_rule -> nomVar ASSIGN nomVar finLinea
-Rule 27    FUNC -> nomVar LPAREN PARAM_LIST RPAREN RETORNO finLinea
-Rule 28    FUNC -> nomVar LPAREN PARAM_LIST RPAREN finLinea
-Rule 29    PARAM_LIST -> TIPODATO nomVar
-Rule 30    PARAM_LIST -> TIPODATO nomVar PTOCOMA PARAM_LIST
-Rule 31    PARAM_LIST -> EMPTY
-Rule 32    COMENTARIO -> comBloque
-Rule 33    COMENTARIO -> comLinea
-Rule 34    IF_rule -> IF LPAREN COMPARACION RPAREN LBRACE CUERPO RBRACE finLinea
-Rule 35    ELSE_rule -> ELSE LPAREN COMPARACION RPAREN LBRACE CUERPO RBRACE finLinea
-Rule 36    WHILE_rule -> WHILE LPAREN COMPARACION RPAREN LBRACE CUERPO RBRACE finLinea
-Rule 37    COMPARACION -> VALORVAR comp VALORVAR
-Rule 38    COMPARACION -> nomVar comp VALORVAR
-Rule 39    COMPARACION -> nomVar comp nomVar
-Rule 40    COMPARACION -> false
-Rule 41    COMPARACION -> true
-Rule 42    COMPARACION -> nomVar
-Rule 43    VALORVAR -> string
-Rule 44    VALORVAR -> true
-Rule 45    VALORVAR -> false
-Rule 46    VALORVAR -> int
-Rule 47    VALORVAR -> float
-Rule 48    PIN_rule -> DEF PIN LPAREN PININ DOSPTOS INT RPAREN finLinea
-Rule 49    PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS INT RPAREN finLinea
-Rule 50    MOV -> ADEL LPAREN RPAREN finLinea
-Rule 51    MOV -> ATR LPAREN RPAREN finLinea
-Rule 52    MOV -> IZQ LPAREN RPAREN finLinea
-Rule 53    MOV -> DER LPAREN RPAREN finLinea
-Rule 54    MOV -> FREN LPAREN RPAREN finLinea
-Rule 55    MOV -> ESP LPAREN int RPAREN finLinea
-Rule 56    MOV -> ESP LPAREN float RPAREN finLinea
-Rule 57    EMPTY -> <empty>
+Rule 4     LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO
+Rule 5     LIBRERIASLIST -> PALABRA PTO PALABRA
+Rule 6     LIBRERIASLIST -> PALABRA PTO PALABRA PTOCOMA LIBRERIASLIST
+Rule 7     CUERPO -> INSTRUCCION CUERPO
+Rule 8     CUERPO -> INSTRUCCION
+Rule 9     CUERPO -> EMPTY
+Rule 10    INSTRUCCION -> DEF_rule
+Rule 11    INSTRUCCION -> FUNC
+Rule 12    INSTRUCCION -> ASSIGN_rule
+Rule 13    INSTRUCCION -> COMENTARIO
+Rule 14    INSTRUCCION -> IF_rule
+Rule 15    INSTRUCCION -> WHILE_rule
+Rule 16    INSTRUCCION -> PIN_rule
+Rule 17    INSTRUCCION -> MOV
+Rule 18    INSTRUCCION -> EMPTY
+Rule 19    DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+Rule 20    DEF_rule -> DEF TIPODATO PALABRA PTO
+Rule 21    TIPODATO -> ENTERO
+Rule 22    TIPODATO -> TEXTO
+Rule 23    TIPODATO -> DECIMAL
+Rule 24    TIPODATO -> LOGICO
+Rule 25    ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO
+Rule 26    VALORVAR -> PALABRA
+Rule 27    VALORVAR -> TRUE
+Rule 28    VALORVAR -> FALSE
+Rule 29    VALORVAR -> INT
+Rule 30    VALORVAR -> FLOAT
+Rule 31    FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+Rule 32    FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+Rule 33    PARAM_LIST -> TIPODATO PALABRA
+Rule 34    PARAM_LIST -> TIPODATO PALABRA PTOCOMA PARAM_LIST
+Rule 35    COMENTARIO -> COMBLOQUE
+Rule 36    COMENTARIO -> COMLINEA
+Rule 37    IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+Rule 38    IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+Rule 39    WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+Rule 40    COMPARA -> VALORVAR COMPARACION VALORVAR
+Rule 41    COMPARA -> VALORVAR
+Rule 42    PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+Rule 43    PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+Rule 44    MOV -> ADEL LPAREN RPAREN PTO
+Rule 45    MOV -> ATR LPAREN RPAREN PTO
+Rule 46    MOV -> IZQ LPAREN RPAREN PTO
+Rule 47    MOV -> DER LPAREN RPAREN PTO
+Rule 48    MOV -> FREN LPAREN RPAREN PTO
+Rule 49    MOV -> ESP LPAREN INT RPAREN PTO
+Rule 50    MOV -> ESP LPAREN FLOAT RPAREN PTO
+Rule 51    EMPTY -> <empty>
 
 Terminals, with rules where they appear
 
-ADEL                 : 50
-ASSIGN               : 16 21 22 23 24 25 26
-ATR                  : 51
-BOOLEAN              : 
-DEF                  : 16 48 49
-DER                  : 53
-DOSPTOS              : 48 49
-ELSE                 : 35
+ADEL                 : 44
+ASSIGN               : 19 25
+ATR                  : 45
+COMBLOQUE            : 35
+COMILLA              : 4 4
+COMLINEA             : 36
+COMPARACION          : 40
+DECIMAL              : 23
+DEF                  : 19 20 42 43
+DER                  : 47
+DOSPTOS              : 42 43
+ELSE                 : 37
 EMPEZAR              : 1
-ESP                  : 55 56
-FLOAT_NUMBER         : 
-FREN                 : 54
-IDENTIFIER           : 
-IF                   : 34
-IZQ                  : 52
-LBRACE               : 34 35 36
-LIBRARY_NAME         : 
-LPAREN               : 4 5 27 28 34 35 36 48 49 50 51 52 53 54 55 56
-NOM_LIB              : 4 5
-NUMBER               : 
-PIN                  : 48 49
-PININ                : 48
-PINOU                : 49
-PTOCOMA              : 4 30
-RBRACE               : 34 35 36
-RETORNO              : 27
-RPAREN               : 4 5 27 28 34 35 36 48 49 50 51 52 53 54 55 56
+ENTERO               : 21
+ESP                  : 49 50
+EXTEND               : 4
+FALSE                : 28
+FLOAT                : 30 50
+FREN                 : 48
+IF                   : 37 38
+INT                  : 29 49
+IZQ                  : 46
+LBRACE               : 31 32 37 37 38 39
+LOGICO               : 24
+LPAREN               : 4 31 32 37 38 39 42 43 44 45 46 47 48 49 50
+PALABRA              : 5 5 6 6 19 20 25 26 31 31 32 33 34 42 43
+PIN                  : 42 43
+PININ                : 42
+PINOU                : 43
+PTO                  : 4 5 6 19 20 25 31 31 32 39 42 43 44 45 46 47 48 49 50
+PTOCOMA              : 6 34
+RBRACE               : 31 32 37 37 38 39
+RETORNO              : 31
+RPAREN               : 4 31 32 37 38 39 42 43 44 45 46 47 48 49 50
 TERMINAR             : 1
-WHILE                : 36
-comBloque            : 32
-comLinea             : 33
-comp                 : 37 38 39
+TEXTO                : 22
+TRUE                 : 27
+WHILE                : 39
 error                : 
-extend               : 4 5
-finLinea             : 5 16 21 22 23 24 25 26 27 28 34 35 36 48 49 50 51 52 53 54 55 56
-nomVar               : 16 21 22 23 24 25 26 26 27 28 29 30 38 39 39 42
-palResBool           : 20
-palResFloat          : 19
-palResInt            : 17
-palResString         : 18
 
 Nonterminals, with rules where they appear
 
-ASSIGN_rule          : 7
-COMENTARIO           : 9
-COMPARACION          : 34 35 36
-CUERPO               : 1 6 7 8 9 10 11 12 13 14 34 35 36
-DEF_rule             : 6
-ELSE_rule            : 11
-EMPTY                : 3 15 31
-FUNC                 : 8
-IF_rule              : 10
+ASSIGN_rule          : 12
+COMENTARIO           : 13
+COMPARA              : 37 38 39
+CUERPO               : 1 7 37 37 38 39
+DEF_rule             : 10
+EMPTY                : 3 9 18
+FUNC                 : 11
+IF_rule              : 14
 INICIO               : 0
-INT                  : 48 49
-LIBRERIAS            : 1 4
+INSTRUCCION          : 7 8 31 32
+LIBRERIAS            : 1
+LIBRERIASLIST        : 4 6
 LIBRERIASP           : 2
-MOV                  : 14
-PARAM_LIST           : 27 28 30
-PIN_rule             : 13
-TIPODATO             : 16 29 30
-VALORVAR             : 16 37 37 38
-WHILE_rule           : 12
-false                : 25 40 45
-float                : 23 47 56
-int                  : 22 46 55
-string               : 21 43
-true                 : 24 41 44
+MOV                  : 17
+PARAM_LIST           : 31 32 34
+PIN_rule             : 16
+TIPODATO             : 19 20 33 34
+VALORVAR             : 19 25 40 40 41
+WHILE_rule           : 15
 
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . INICIO
+    (1) INICIO -> . EMPEZAR LIBRERIAS CUERPO TERMINAR
+
+    EMPEZAR         shift and go to state 2
+
+    INICIO                         shift and go to state 1
+
+state 1
+
+    (0) S' -> INICIO .
+
+
+
+state 2
+
+    (1) INICIO -> EMPEZAR . LIBRERIAS CUERPO TERMINAR
+    (2) LIBRERIAS -> . LIBRERIASP
+    (3) LIBRERIAS -> . EMPTY
+    (4) LIBRERIASP -> . EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO
+    (51) EMPTY -> .
+
+    EXTEND          shift and go to state 6
+    DEF             reduce using rule 51 (EMPTY -> .)
+    PALABRA         reduce using rule 51 (EMPTY -> .)
+    COMBLOQUE       reduce using rule 51 (EMPTY -> .)
+    COMLINEA        reduce using rule 51 (EMPTY -> .)
+    IF              reduce using rule 51 (EMPTY -> .)
+    WHILE           reduce using rule 51 (EMPTY -> .)
+    ADEL            reduce using rule 51 (EMPTY -> .)
+    ATR             reduce using rule 51 (EMPTY -> .)
+    IZQ             reduce using rule 51 (EMPTY -> .)
+    DER             reduce using rule 51 (EMPTY -> .)
+    FREN            reduce using rule 51 (EMPTY -> .)
+    ESP             reduce using rule 51 (EMPTY -> .)
+    TERMINAR        reduce using rule 51 (EMPTY -> .)
+
+    LIBRERIAS                      shift and go to state 3
+    LIBRERIASP                     shift and go to state 4
+    EMPTY                          shift and go to state 5
+
+state 3
+
+    (1) INICIO -> EMPEZAR LIBRERIAS . CUERPO TERMINAR
+    (7) CUERPO -> . INSTRUCCION CUERPO
+    (8) CUERPO -> . INSTRUCCION
+    (9) CUERPO -> . EMPTY
+    (10) INSTRUCCION -> . DEF_rule
+    (11) INSTRUCCION -> . FUNC
+    (12) INSTRUCCION -> . ASSIGN_rule
+    (13) INSTRUCCION -> . COMENTARIO
+    (14) INSTRUCCION -> . IF_rule
+    (15) INSTRUCCION -> . WHILE_rule
+    (16) INSTRUCCION -> . PIN_rule
+    (17) INSTRUCCION -> . MOV
+    (18) INSTRUCCION -> . EMPTY
+    (51) EMPTY -> .
+    (19) DEF_rule -> . DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> . DEF TIPODATO PALABRA PTO
+    (31) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> . PALABRA ASSIGN VALORVAR PTO
+    (35) COMENTARIO -> . COMBLOQUE
+    (36) COMENTARIO -> . COMLINEA
+    (37) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+    (39) WHILE_rule -> . WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (42) PIN_rule -> . DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> . DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (44) MOV -> . ADEL LPAREN RPAREN PTO
+    (45) MOV -> . ATR LPAREN RPAREN PTO
+    (46) MOV -> . IZQ LPAREN RPAREN PTO
+    (47) MOV -> . DER LPAREN RPAREN PTO
+    (48) MOV -> . FREN LPAREN RPAREN PTO
+    (49) MOV -> . ESP LPAREN INT RPAREN PTO
+    (50) MOV -> . ESP LPAREN FLOAT RPAREN PTO
+
+  ! shift/reduce conflict for DEF resolved as shift
+  ! shift/reduce conflict for PALABRA resolved as shift
+  ! shift/reduce conflict for COMBLOQUE resolved as shift
+  ! shift/reduce conflict for COMLINEA resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for ADEL resolved as shift
+  ! shift/reduce conflict for ATR resolved as shift
+  ! shift/reduce conflict for IZQ resolved as shift
+  ! shift/reduce conflict for DER resolved as shift
+  ! shift/reduce conflict for FREN resolved as shift
+  ! shift/reduce conflict for ESP resolved as shift
+    TERMINAR        reduce using rule 51 (EMPTY -> .)
+    DEF             shift and go to state 18
+    PALABRA         shift and go to state 19
+    COMBLOQUE       shift and go to state 20
+    COMLINEA        shift and go to state 21
+    IF              shift and go to state 22
+    WHILE           shift and go to state 23
+    ADEL            shift and go to state 24
+    ATR             shift and go to state 25
+    IZQ             shift and go to state 26
+    DER             shift and go to state 27
+    FREN            shift and go to state 28
+    ESP             shift and go to state 29
+
+  ! DEF             [ reduce using rule 51 (EMPTY -> .) ]
+  ! PALABRA         [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMBLOQUE       [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMLINEA        [ reduce using rule 51 (EMPTY -> .) ]
+  ! IF              [ reduce using rule 51 (EMPTY -> .) ]
+  ! WHILE           [ reduce using rule 51 (EMPTY -> .) ]
+  ! ADEL            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ATR             [ reduce using rule 51 (EMPTY -> .) ]
+  ! IZQ             [ reduce using rule 51 (EMPTY -> .) ]
+  ! DER             [ reduce using rule 51 (EMPTY -> .) ]
+  ! FREN            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ESP             [ reduce using rule 51 (EMPTY -> .) ]
+
+    CUERPO                         shift and go to state 7
+    INSTRUCCION                    shift and go to state 8
+    EMPTY                          shift and go to state 9
+    DEF_rule                       shift and go to state 10
+    FUNC                           shift and go to state 11
+    ASSIGN_rule                    shift and go to state 12
+    COMENTARIO                     shift and go to state 13
+    IF_rule                        shift and go to state 14
+    WHILE_rule                     shift and go to state 15
+    PIN_rule                       shift and go to state 16
+    MOV                            shift and go to state 17
+
+state 4
+
+    (2) LIBRERIAS -> LIBRERIASP .
+
+    DEF             reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    PALABRA         reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    COMBLOQUE       reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    COMLINEA        reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    IF              reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    WHILE           reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    ADEL            reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    ATR             reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    IZQ             reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    DER             reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    FREN            reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    ESP             reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+    TERMINAR        reduce using rule 2 (LIBRERIAS -> LIBRERIASP .)
+
+
+state 5
+
+    (3) LIBRERIAS -> EMPTY .
+
+    DEF             reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    PALABRA         reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    COMBLOQUE       reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    COMLINEA        reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    IF              reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    WHILE           reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    ADEL            reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    ATR             reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    IZQ             reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    DER             reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    FREN            reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    ESP             reduce using rule 3 (LIBRERIAS -> EMPTY .)
+    TERMINAR        reduce using rule 3 (LIBRERIAS -> EMPTY .)
+
+
+state 6
+
+    (4) LIBRERIASP -> EXTEND . LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO
+
+    LPAREN          shift and go to state 30
+
+
+state 7
+
+    (1) INICIO -> EMPEZAR LIBRERIAS CUERPO . TERMINAR
+
+    TERMINAR        shift and go to state 31
+
+
+state 8
+
+    (7) CUERPO -> INSTRUCCION . CUERPO
+    (8) CUERPO -> INSTRUCCION .
+    (7) CUERPO -> . INSTRUCCION CUERPO
+    (8) CUERPO -> . INSTRUCCION
+    (9) CUERPO -> . EMPTY
+    (10) INSTRUCCION -> . DEF_rule
+    (11) INSTRUCCION -> . FUNC
+    (12) INSTRUCCION -> . ASSIGN_rule
+    (13) INSTRUCCION -> . COMENTARIO
+    (14) INSTRUCCION -> . IF_rule
+    (15) INSTRUCCION -> . WHILE_rule
+    (16) INSTRUCCION -> . PIN_rule
+    (17) INSTRUCCION -> . MOV
+    (18) INSTRUCCION -> . EMPTY
+    (51) EMPTY -> .
+    (19) DEF_rule -> . DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> . DEF TIPODATO PALABRA PTO
+    (31) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> . PALABRA ASSIGN VALORVAR PTO
+    (35) COMENTARIO -> . COMBLOQUE
+    (36) COMENTARIO -> . COMLINEA
+    (37) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+    (39) WHILE_rule -> . WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (42) PIN_rule -> . DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> . DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (44) MOV -> . ADEL LPAREN RPAREN PTO
+    (45) MOV -> . ATR LPAREN RPAREN PTO
+    (46) MOV -> . IZQ LPAREN RPAREN PTO
+    (47) MOV -> . DER LPAREN RPAREN PTO
+    (48) MOV -> . FREN LPAREN RPAREN PTO
+    (49) MOV -> . ESP LPAREN INT RPAREN PTO
+    (50) MOV -> . ESP LPAREN FLOAT RPAREN PTO
+
+  ! reduce/reduce conflict for TERMINAR resolved using rule 8 (CUERPO -> INSTRUCCION .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 8 (CUERPO -> INSTRUCCION .)
+  ! shift/reduce conflict for DEF resolved as shift
+  ! shift/reduce conflict for PALABRA resolved as shift
+  ! shift/reduce conflict for COMBLOQUE resolved as shift
+  ! shift/reduce conflict for COMLINEA resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for ADEL resolved as shift
+  ! shift/reduce conflict for ATR resolved as shift
+  ! shift/reduce conflict for IZQ resolved as shift
+  ! shift/reduce conflict for DER resolved as shift
+  ! shift/reduce conflict for FREN resolved as shift
+  ! shift/reduce conflict for ESP resolved as shift
+    TERMINAR        reduce using rule 8 (CUERPO -> INSTRUCCION .)
+    RBRACE          reduce using rule 8 (CUERPO -> INSTRUCCION .)
+    DEF             shift and go to state 18
+    PALABRA         shift and go to state 19
+    COMBLOQUE       shift and go to state 20
+    COMLINEA        shift and go to state 21
+    IF              shift and go to state 22
+    WHILE           shift and go to state 23
+    ADEL            shift and go to state 24
+    ATR             shift and go to state 25
+    IZQ             shift and go to state 26
+    DER             shift and go to state 27
+    FREN            shift and go to state 28
+    ESP             shift and go to state 29
+
+  ! TERMINAR        [ reduce using rule 51 (EMPTY -> .) ]
+  ! RBRACE          [ reduce using rule 51 (EMPTY -> .) ]
+  ! DEF             [ reduce using rule 51 (EMPTY -> .) ]
+  ! PALABRA         [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMBLOQUE       [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMLINEA        [ reduce using rule 51 (EMPTY -> .) ]
+  ! IF              [ reduce using rule 51 (EMPTY -> .) ]
+  ! WHILE           [ reduce using rule 51 (EMPTY -> .) ]
+  ! ADEL            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ATR             [ reduce using rule 51 (EMPTY -> .) ]
+  ! IZQ             [ reduce using rule 51 (EMPTY -> .) ]
+  ! DER             [ reduce using rule 51 (EMPTY -> .) ]
+  ! FREN            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ESP             [ reduce using rule 51 (EMPTY -> .) ]
+
+    INSTRUCCION                    shift and go to state 8
+    CUERPO                         shift and go to state 32
+    EMPTY                          shift and go to state 9
+    DEF_rule                       shift and go to state 10
+    FUNC                           shift and go to state 11
+    ASSIGN_rule                    shift and go to state 12
+    COMENTARIO                     shift and go to state 13
+    IF_rule                        shift and go to state 14
+    WHILE_rule                     shift and go to state 15
+    PIN_rule                       shift and go to state 16
+    MOV                            shift and go to state 17
+
+state 9
+
+    (9) CUERPO -> EMPTY .
+    (18) INSTRUCCION -> EMPTY .
+
+  ! reduce/reduce conflict for TERMINAR resolved using rule 9 (CUERPO -> EMPTY .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 9 (CUERPO -> EMPTY .)
+    TERMINAR        reduce using rule 9 (CUERPO -> EMPTY .)
+    RBRACE          reduce using rule 9 (CUERPO -> EMPTY .)
+    DEF             reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    PALABRA         reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    COMBLOQUE       reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    COMLINEA        reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    IF              reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    WHILE           reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    ADEL            reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    ATR             reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    IZQ             reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    DER             reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    FREN            reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    ESP             reduce using rule 18 (INSTRUCCION -> EMPTY .)
+
+  ! TERMINAR        [ reduce using rule 18 (INSTRUCCION -> EMPTY .) ]
+  ! RBRACE          [ reduce using rule 18 (INSTRUCCION -> EMPTY .) ]
+
+
+state 10
+
+    (10) INSTRUCCION -> DEF_rule .
+
+    DEF             reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    PALABRA         reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    COMBLOQUE       reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    COMLINEA        reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    IF              reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    WHILE           reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    ADEL            reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    ATR             reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    IZQ             reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    DER             reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    FREN            reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    ESP             reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    TERMINAR        reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    RBRACE          reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+    RETORNO         reduce using rule 10 (INSTRUCCION -> DEF_rule .)
+
+
+state 11
+
+    (11) INSTRUCCION -> FUNC .
+
+    DEF             reduce using rule 11 (INSTRUCCION -> FUNC .)
+    PALABRA         reduce using rule 11 (INSTRUCCION -> FUNC .)
+    COMBLOQUE       reduce using rule 11 (INSTRUCCION -> FUNC .)
+    COMLINEA        reduce using rule 11 (INSTRUCCION -> FUNC .)
+    IF              reduce using rule 11 (INSTRUCCION -> FUNC .)
+    WHILE           reduce using rule 11 (INSTRUCCION -> FUNC .)
+    ADEL            reduce using rule 11 (INSTRUCCION -> FUNC .)
+    ATR             reduce using rule 11 (INSTRUCCION -> FUNC .)
+    IZQ             reduce using rule 11 (INSTRUCCION -> FUNC .)
+    DER             reduce using rule 11 (INSTRUCCION -> FUNC .)
+    FREN            reduce using rule 11 (INSTRUCCION -> FUNC .)
+    ESP             reduce using rule 11 (INSTRUCCION -> FUNC .)
+    TERMINAR        reduce using rule 11 (INSTRUCCION -> FUNC .)
+    RBRACE          reduce using rule 11 (INSTRUCCION -> FUNC .)
+    RETORNO         reduce using rule 11 (INSTRUCCION -> FUNC .)
+
+
+state 12
+
+    (12) INSTRUCCION -> ASSIGN_rule .
+
+    DEF             reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    PALABRA         reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    COMBLOQUE       reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    COMLINEA        reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    IF              reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    WHILE           reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    ADEL            reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    ATR             reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    IZQ             reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    DER             reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    FREN            reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    ESP             reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    TERMINAR        reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    RBRACE          reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+    RETORNO         reduce using rule 12 (INSTRUCCION -> ASSIGN_rule .)
+
+
+state 13
+
+    (13) INSTRUCCION -> COMENTARIO .
+
+    DEF             reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    PALABRA         reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    COMBLOQUE       reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    COMLINEA        reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    IF              reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    WHILE           reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    ADEL            reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    ATR             reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    IZQ             reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    DER             reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    FREN            reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    ESP             reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    TERMINAR        reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    RBRACE          reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+    RETORNO         reduce using rule 13 (INSTRUCCION -> COMENTARIO .)
+
+
+state 14
+
+    (14) INSTRUCCION -> IF_rule .
+
+    DEF             reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    PALABRA         reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    COMBLOQUE       reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    COMLINEA        reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    IF              reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    WHILE           reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    ADEL            reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    ATR             reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    IZQ             reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    DER             reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    FREN            reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    ESP             reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    TERMINAR        reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    RBRACE          reduce using rule 14 (INSTRUCCION -> IF_rule .)
+    RETORNO         reduce using rule 14 (INSTRUCCION -> IF_rule .)
+
+
+state 15
+
+    (15) INSTRUCCION -> WHILE_rule .
+
+    DEF             reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    PALABRA         reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    COMBLOQUE       reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    COMLINEA        reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    IF              reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    WHILE           reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    ADEL            reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    ATR             reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    IZQ             reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    DER             reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    FREN            reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    ESP             reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    TERMINAR        reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    RBRACE          reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+    RETORNO         reduce using rule 15 (INSTRUCCION -> WHILE_rule .)
+
+
+state 16
+
+    (16) INSTRUCCION -> PIN_rule .
+
+    DEF             reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    PALABRA         reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    COMBLOQUE       reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    COMLINEA        reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    IF              reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    WHILE           reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    ADEL            reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    ATR             reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    IZQ             reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    DER             reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    FREN            reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    ESP             reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    TERMINAR        reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    RBRACE          reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+    RETORNO         reduce using rule 16 (INSTRUCCION -> PIN_rule .)
+
+
+state 17
+
+    (17) INSTRUCCION -> MOV .
+
+    DEF             reduce using rule 17 (INSTRUCCION -> MOV .)
+    PALABRA         reduce using rule 17 (INSTRUCCION -> MOV .)
+    COMBLOQUE       reduce using rule 17 (INSTRUCCION -> MOV .)
+    COMLINEA        reduce using rule 17 (INSTRUCCION -> MOV .)
+    IF              reduce using rule 17 (INSTRUCCION -> MOV .)
+    WHILE           reduce using rule 17 (INSTRUCCION -> MOV .)
+    ADEL            reduce using rule 17 (INSTRUCCION -> MOV .)
+    ATR             reduce using rule 17 (INSTRUCCION -> MOV .)
+    IZQ             reduce using rule 17 (INSTRUCCION -> MOV .)
+    DER             reduce using rule 17 (INSTRUCCION -> MOV .)
+    FREN            reduce using rule 17 (INSTRUCCION -> MOV .)
+    ESP             reduce using rule 17 (INSTRUCCION -> MOV .)
+    TERMINAR        reduce using rule 17 (INSTRUCCION -> MOV .)
+    RBRACE          reduce using rule 17 (INSTRUCCION -> MOV .)
+    RETORNO         reduce using rule 17 (INSTRUCCION -> MOV .)
+
+
+state 18
+
+    (19) DEF_rule -> DEF . TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> DEF . TIPODATO PALABRA PTO
+    (42) PIN_rule -> DEF . PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> DEF . PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (21) TIPODATO -> . ENTERO
+    (22) TIPODATO -> . TEXTO
+    (23) TIPODATO -> . DECIMAL
+    (24) TIPODATO -> . LOGICO
+
+    PIN             shift and go to state 34
+    ENTERO          shift and go to state 35
+    TEXTO           shift and go to state 36
+    DECIMAL         shift and go to state 37
+    LOGICO          shift and go to state 38
+
+    TIPODATO                       shift and go to state 33
+
+state 19
+
+    (31) FUNC -> PALABRA . LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> PALABRA . LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> PALABRA . ASSIGN VALORVAR PTO
+
+    LPAREN          shift and go to state 39
+    ASSIGN          shift and go to state 40
+
+
+state 20
+
+    (35) COMENTARIO -> COMBLOQUE .
+
+    DEF             reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    PALABRA         reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    COMBLOQUE       reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    COMLINEA        reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    IF              reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    WHILE           reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    ADEL            reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    ATR             reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    IZQ             reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    DER             reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    FREN            reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    ESP             reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    TERMINAR        reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    RBRACE          reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+    RETORNO         reduce using rule 35 (COMENTARIO -> COMBLOQUE .)
+
+
+state 21
+
+    (36) COMENTARIO -> COMLINEA .
+
+    DEF             reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    PALABRA         reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    COMBLOQUE       reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    COMLINEA        reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    IF              reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    WHILE           reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    ADEL            reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    ATR             reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    IZQ             reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    DER             reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    FREN            reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    ESP             reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    TERMINAR        reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    RBRACE          reduce using rule 36 (COMENTARIO -> COMLINEA .)
+    RETORNO         reduce using rule 36 (COMENTARIO -> COMLINEA .)
+
+
+state 22
+
+    (37) IF_rule -> IF . LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF . LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+
+    LPAREN          shift and go to state 41
+
+
+state 23
+
+    (39) WHILE_rule -> WHILE . LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+
+    LPAREN          shift and go to state 42
+
+
+state 24
+
+    (44) MOV -> ADEL . LPAREN RPAREN PTO
+
+    LPAREN          shift and go to state 43
+
+
+state 25
+
+    (45) MOV -> ATR . LPAREN RPAREN PTO
+
+    LPAREN          shift and go to state 44
+
+
+state 26
+
+    (46) MOV -> IZQ . LPAREN RPAREN PTO
+
+    LPAREN          shift and go to state 45
+
+
+state 27
+
+    (47) MOV -> DER . LPAREN RPAREN PTO
+
+    LPAREN          shift and go to state 46
+
+
+state 28
+
+    (48) MOV -> FREN . LPAREN RPAREN PTO
+
+    LPAREN          shift and go to state 47
+
+
+state 29
+
+    (49) MOV -> ESP . LPAREN INT RPAREN PTO
+    (50) MOV -> ESP . LPAREN FLOAT RPAREN PTO
+
+    LPAREN          shift and go to state 48
+
+
+state 30
+
+    (4) LIBRERIASP -> EXTEND LPAREN . COMILLA LIBRERIASLIST COMILLA RPAREN PTO
+
+    COMILLA         shift and go to state 49
+
+
+state 31
+
+    (1) INICIO -> EMPEZAR LIBRERIAS CUERPO TERMINAR .
+
+    $end            reduce using rule 1 (INICIO -> EMPEZAR LIBRERIAS CUERPO TERMINAR .)
+
+
+state 32
+
+    (7) CUERPO -> INSTRUCCION CUERPO .
+
+    TERMINAR        reduce using rule 7 (CUERPO -> INSTRUCCION CUERPO .)
+    RBRACE          reduce using rule 7 (CUERPO -> INSTRUCCION CUERPO .)
+
+
+state 33
+
+    (19) DEF_rule -> DEF TIPODATO . PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> DEF TIPODATO . PALABRA PTO
+
+    PALABRA         shift and go to state 50
+
+
+state 34
+
+    (42) PIN_rule -> DEF PIN . LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> DEF PIN . LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+
+    LPAREN          shift and go to state 51
+
+
+state 35
+
+    (21) TIPODATO -> ENTERO .
+
+    PALABRA         reduce using rule 21 (TIPODATO -> ENTERO .)
+
+
+state 36
+
+    (22) TIPODATO -> TEXTO .
+
+    PALABRA         reduce using rule 22 (TIPODATO -> TEXTO .)
+
+
+state 37
+
+    (23) TIPODATO -> DECIMAL .
+
+    PALABRA         reduce using rule 23 (TIPODATO -> DECIMAL .)
+
+
+state 38
+
+    (24) TIPODATO -> LOGICO .
+
+    PALABRA         reduce using rule 24 (TIPODATO -> LOGICO .)
+
+
+state 39
+
+    (31) FUNC -> PALABRA LPAREN . PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> PALABRA LPAREN . PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (33) PARAM_LIST -> . TIPODATO PALABRA
+    (34) PARAM_LIST -> . TIPODATO PALABRA PTOCOMA PARAM_LIST
+    (21) TIPODATO -> . ENTERO
+    (22) TIPODATO -> . TEXTO
+    (23) TIPODATO -> . DECIMAL
+    (24) TIPODATO -> . LOGICO
+
+    ENTERO          shift and go to state 35
+    TEXTO           shift and go to state 36
+    DECIMAL         shift and go to state 37
+    LOGICO          shift and go to state 38
+
+    PARAM_LIST                     shift and go to state 52
+    TIPODATO                       shift and go to state 53
+
+state 40
+
+    (25) ASSIGN_rule -> PALABRA ASSIGN . VALORVAR PTO
+    (26) VALORVAR -> . PALABRA
+    (27) VALORVAR -> . TRUE
+    (28) VALORVAR -> . FALSE
+    (29) VALORVAR -> . INT
+    (30) VALORVAR -> . FLOAT
+
+    PALABRA         shift and go to state 54
+    TRUE            shift and go to state 56
+    FALSE           shift and go to state 57
+    INT             shift and go to state 58
+    FLOAT           shift and go to state 59
+
+    VALORVAR                       shift and go to state 55
+
+state 41
+
+    (37) IF_rule -> IF LPAREN . COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF LPAREN . COMPARA RPAREN LBRACE CUERPO RBRACE
+    (40) COMPARA -> . VALORVAR COMPARACION VALORVAR
+    (41) COMPARA -> . VALORVAR
+    (26) VALORVAR -> . PALABRA
+    (27) VALORVAR -> . TRUE
+    (28) VALORVAR -> . FALSE
+    (29) VALORVAR -> . INT
+    (30) VALORVAR -> . FLOAT
+
+    PALABRA         shift and go to state 54
+    TRUE            shift and go to state 56
+    FALSE           shift and go to state 57
+    INT             shift and go to state 58
+    FLOAT           shift and go to state 59
+
+    COMPARA                        shift and go to state 60
+    VALORVAR                       shift and go to state 61
+
+state 42
+
+    (39) WHILE_rule -> WHILE LPAREN . COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (40) COMPARA -> . VALORVAR COMPARACION VALORVAR
+    (41) COMPARA -> . VALORVAR
+    (26) VALORVAR -> . PALABRA
+    (27) VALORVAR -> . TRUE
+    (28) VALORVAR -> . FALSE
+    (29) VALORVAR -> . INT
+    (30) VALORVAR -> . FLOAT
+
+    PALABRA         shift and go to state 54
+    TRUE            shift and go to state 56
+    FALSE           shift and go to state 57
+    INT             shift and go to state 58
+    FLOAT           shift and go to state 59
+
+    COMPARA                        shift and go to state 62
+    VALORVAR                       shift and go to state 61
+
+state 43
+
+    (44) MOV -> ADEL LPAREN . RPAREN PTO
+
+    RPAREN          shift and go to state 63
+
+
+state 44
+
+    (45) MOV -> ATR LPAREN . RPAREN PTO
+
+    RPAREN          shift and go to state 64
+
+
+state 45
+
+    (46) MOV -> IZQ LPAREN . RPAREN PTO
+
+    RPAREN          shift and go to state 65
+
+
+state 46
+
+    (47) MOV -> DER LPAREN . RPAREN PTO
+
+    RPAREN          shift and go to state 66
+
+
+state 47
+
+    (48) MOV -> FREN LPAREN . RPAREN PTO
+
+    RPAREN          shift and go to state 67
+
+
+state 48
+
+    (49) MOV -> ESP LPAREN . INT RPAREN PTO
+    (50) MOV -> ESP LPAREN . FLOAT RPAREN PTO
+
+    INT             shift and go to state 68
+    FLOAT           shift and go to state 69
+
+
+state 49
+
+    (4) LIBRERIASP -> EXTEND LPAREN COMILLA . LIBRERIASLIST COMILLA RPAREN PTO
+    (5) LIBRERIASLIST -> . PALABRA PTO PALABRA
+    (6) LIBRERIASLIST -> . PALABRA PTO PALABRA PTOCOMA LIBRERIASLIST
+
+    PALABRA         shift and go to state 71
+
+    LIBRERIASLIST                  shift and go to state 70
+
+state 50
+
+    (19) DEF_rule -> DEF TIPODATO PALABRA . ASSIGN VALORVAR PTO
+    (20) DEF_rule -> DEF TIPODATO PALABRA . PTO
+
+    ASSIGN          shift and go to state 72
+    PTO             shift and go to state 73
+
+
+state 51
+
+    (42) PIN_rule -> DEF PIN LPAREN . PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> DEF PIN LPAREN . PINOU DOSPTOS PALABRA RPAREN PTO
+
+    PININ           shift and go to state 74
+    PINOU           shift and go to state 75
+
+
+state 52
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST . RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> PALABRA LPAREN PARAM_LIST . RPAREN LBRACE INSTRUCCION RBRACE PTO
+
+    RPAREN          shift and go to state 76
+
+
+state 53
+
+    (33) PARAM_LIST -> TIPODATO . PALABRA
+    (34) PARAM_LIST -> TIPODATO . PALABRA PTOCOMA PARAM_LIST
+
+    PALABRA         shift and go to state 77
+
+
+state 54
+
+    (26) VALORVAR -> PALABRA .
+
+    PTO             reduce using rule 26 (VALORVAR -> PALABRA .)
+    COMPARACION     reduce using rule 26 (VALORVAR -> PALABRA .)
+    RPAREN          reduce using rule 26 (VALORVAR -> PALABRA .)
+
+
+state 55
+
+    (25) ASSIGN_rule -> PALABRA ASSIGN VALORVAR . PTO
+
+    PTO             shift and go to state 78
+
+
+state 56
+
+    (27) VALORVAR -> TRUE .
+
+    PTO             reduce using rule 27 (VALORVAR -> TRUE .)
+    COMPARACION     reduce using rule 27 (VALORVAR -> TRUE .)
+    RPAREN          reduce using rule 27 (VALORVAR -> TRUE .)
+
+
+state 57
+
+    (28) VALORVAR -> FALSE .
+
+    PTO             reduce using rule 28 (VALORVAR -> FALSE .)
+    COMPARACION     reduce using rule 28 (VALORVAR -> FALSE .)
+    RPAREN          reduce using rule 28 (VALORVAR -> FALSE .)
+
+
+state 58
+
+    (29) VALORVAR -> INT .
+
+    PTO             reduce using rule 29 (VALORVAR -> INT .)
+    COMPARACION     reduce using rule 29 (VALORVAR -> INT .)
+    RPAREN          reduce using rule 29 (VALORVAR -> INT .)
+
+
+state 59
+
+    (30) VALORVAR -> FLOAT .
+
+    PTO             reduce using rule 30 (VALORVAR -> FLOAT .)
+    COMPARACION     reduce using rule 30 (VALORVAR -> FLOAT .)
+    RPAREN          reduce using rule 30 (VALORVAR -> FLOAT .)
+
+
+state 60
+
+    (37) IF_rule -> IF LPAREN COMPARA . RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF LPAREN COMPARA . RPAREN LBRACE CUERPO RBRACE
+
+    RPAREN          shift and go to state 79
+
+
+state 61
+
+    (40) COMPARA -> VALORVAR . COMPARACION VALORVAR
+    (41) COMPARA -> VALORVAR .
+
+    COMPARACION     shift and go to state 80
+    RPAREN          reduce using rule 41 (COMPARA -> VALORVAR .)
+
+
+state 62
+
+    (39) WHILE_rule -> WHILE LPAREN COMPARA . RPAREN LBRACE CUERPO RBRACE PTO
+
+    RPAREN          shift and go to state 81
+
+
+state 63
+
+    (44) MOV -> ADEL LPAREN RPAREN . PTO
+
+    PTO             shift and go to state 82
+
+
+state 64
+
+    (45) MOV -> ATR LPAREN RPAREN . PTO
+
+    PTO             shift and go to state 83
+
+
+state 65
+
+    (46) MOV -> IZQ LPAREN RPAREN . PTO
+
+    PTO             shift and go to state 84
+
+
+state 66
+
+    (47) MOV -> DER LPAREN RPAREN . PTO
+
+    PTO             shift and go to state 85
+
+
+state 67
+
+    (48) MOV -> FREN LPAREN RPAREN . PTO
+
+    PTO             shift and go to state 86
+
+
+state 68
+
+    (49) MOV -> ESP LPAREN INT . RPAREN PTO
+
+    RPAREN          shift and go to state 87
+
+
+state 69
+
+    (50) MOV -> ESP LPAREN FLOAT . RPAREN PTO
+
+    RPAREN          shift and go to state 88
+
+
+state 70
+
+    (4) LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST . COMILLA RPAREN PTO
+
+    COMILLA         shift and go to state 89
+
+
+state 71
+
+    (5) LIBRERIASLIST -> PALABRA . PTO PALABRA
+    (6) LIBRERIASLIST -> PALABRA . PTO PALABRA PTOCOMA LIBRERIASLIST
+
+    PTO             shift and go to state 90
+
+
+state 72
+
+    (19) DEF_rule -> DEF TIPODATO PALABRA ASSIGN . VALORVAR PTO
+    (26) VALORVAR -> . PALABRA
+    (27) VALORVAR -> . TRUE
+    (28) VALORVAR -> . FALSE
+    (29) VALORVAR -> . INT
+    (30) VALORVAR -> . FLOAT
+
+    PALABRA         shift and go to state 54
+    TRUE            shift and go to state 56
+    FALSE           shift and go to state 57
+    INT             shift and go to state 58
+    FLOAT           shift and go to state 59
+
+    VALORVAR                       shift and go to state 91
+
+state 73
+
+    (20) DEF_rule -> DEF TIPODATO PALABRA PTO .
+
+    DEF             reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    PALABRA         reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    COMBLOQUE       reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    COMLINEA        reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    IF              reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    WHILE           reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    ADEL            reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    ATR             reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    IZQ             reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    DER             reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    FREN            reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    ESP             reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    TERMINAR        reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    RBRACE          reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+    RETORNO         reduce using rule 20 (DEF_rule -> DEF TIPODATO PALABRA PTO .)
+
+
+state 74
+
+    (42) PIN_rule -> DEF PIN LPAREN PININ . DOSPTOS PALABRA RPAREN PTO
+
+    DOSPTOS         shift and go to state 92
+
+
+state 75
+
+    (43) PIN_rule -> DEF PIN LPAREN PINOU . DOSPTOS PALABRA RPAREN PTO
+
+    DOSPTOS         shift and go to state 93
+
+
+state 76
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN . LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN . LBRACE INSTRUCCION RBRACE PTO
+
+    LBRACE          shift and go to state 94
+
+
+state 77
+
+    (33) PARAM_LIST -> TIPODATO PALABRA .
+    (34) PARAM_LIST -> TIPODATO PALABRA . PTOCOMA PARAM_LIST
+
+    RPAREN          reduce using rule 33 (PARAM_LIST -> TIPODATO PALABRA .)
+    PTOCOMA         shift and go to state 95
+
+
+state 78
+
+    (25) ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .
+
+    DEF             reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    PALABRA         reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    COMBLOQUE       reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    COMLINEA        reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    IF              reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    WHILE           reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    ADEL            reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    ATR             reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    IZQ             reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    DER             reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    FREN            reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    ESP             reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    TERMINAR        reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    RBRACE          reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+    RETORNO         reduce using rule 25 (ASSIGN_rule -> PALABRA ASSIGN VALORVAR PTO .)
+
+
+state 79
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN . LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF LPAREN COMPARA RPAREN . LBRACE CUERPO RBRACE
+
+    LBRACE          shift and go to state 96
+
+
+state 80
+
+    (40) COMPARA -> VALORVAR COMPARACION . VALORVAR
+    (26) VALORVAR -> . PALABRA
+    (27) VALORVAR -> . TRUE
+    (28) VALORVAR -> . FALSE
+    (29) VALORVAR -> . INT
+    (30) VALORVAR -> . FLOAT
+
+    PALABRA         shift and go to state 54
+    TRUE            shift and go to state 56
+    FALSE           shift and go to state 57
+    INT             shift and go to state 58
+    FLOAT           shift and go to state 59
+
+    VALORVAR                       shift and go to state 97
+
+state 81
+
+    (39) WHILE_rule -> WHILE LPAREN COMPARA RPAREN . LBRACE CUERPO RBRACE PTO
+
+    LBRACE          shift and go to state 98
+
+
+state 82
+
+    (44) MOV -> ADEL LPAREN RPAREN PTO .
+
+    DEF             reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    PALABRA         reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    COMBLOQUE       reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    COMLINEA        reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    IF              reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    WHILE           reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    ADEL            reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    ATR             reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    IZQ             reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    DER             reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    FREN            reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    ESP             reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    TERMINAR        reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    RBRACE          reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+    RETORNO         reduce using rule 44 (MOV -> ADEL LPAREN RPAREN PTO .)
+
+
+state 83
+
+    (45) MOV -> ATR LPAREN RPAREN PTO .
+
+    DEF             reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    PALABRA         reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    COMBLOQUE       reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    COMLINEA        reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    IF              reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    WHILE           reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    ADEL            reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    ATR             reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    IZQ             reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    DER             reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    FREN            reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    ESP             reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    TERMINAR        reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    RBRACE          reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+    RETORNO         reduce using rule 45 (MOV -> ATR LPAREN RPAREN PTO .)
+
+
+state 84
+
+    (46) MOV -> IZQ LPAREN RPAREN PTO .
+
+    DEF             reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    PALABRA         reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    COMBLOQUE       reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    COMLINEA        reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    IF              reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    WHILE           reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    ADEL            reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    ATR             reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    IZQ             reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    DER             reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    FREN            reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    ESP             reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    TERMINAR        reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    RBRACE          reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+    RETORNO         reduce using rule 46 (MOV -> IZQ LPAREN RPAREN PTO .)
+
+
+state 85
+
+    (47) MOV -> DER LPAREN RPAREN PTO .
+
+    DEF             reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    PALABRA         reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    COMBLOQUE       reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    COMLINEA        reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    IF              reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    WHILE           reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    ADEL            reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    ATR             reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    IZQ             reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    DER             reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    FREN            reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    ESP             reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    TERMINAR        reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    RBRACE          reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+    RETORNO         reduce using rule 47 (MOV -> DER LPAREN RPAREN PTO .)
+
+
+state 86
+
+    (48) MOV -> FREN LPAREN RPAREN PTO .
+
+    DEF             reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    PALABRA         reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    COMBLOQUE       reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    COMLINEA        reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    IF              reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    WHILE           reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    ADEL            reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    ATR             reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    IZQ             reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    DER             reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    FREN            reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    ESP             reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    TERMINAR        reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    RBRACE          reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+    RETORNO         reduce using rule 48 (MOV -> FREN LPAREN RPAREN PTO .)
+
+
+state 87
+
+    (49) MOV -> ESP LPAREN INT RPAREN . PTO
+
+    PTO             shift and go to state 99
+
+
+state 88
+
+    (50) MOV -> ESP LPAREN FLOAT RPAREN . PTO
+
+    PTO             shift and go to state 100
+
+
+state 89
+
+    (4) LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA . RPAREN PTO
+
+    RPAREN          shift and go to state 101
+
+
+state 90
+
+    (5) LIBRERIASLIST -> PALABRA PTO . PALABRA
+    (6) LIBRERIASLIST -> PALABRA PTO . PALABRA PTOCOMA LIBRERIASLIST
+
+    PALABRA         shift and go to state 102
+
+
+state 91
+
+    (19) DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR . PTO
+
+    PTO             shift and go to state 103
+
+
+state 92
+
+    (42) PIN_rule -> DEF PIN LPAREN PININ DOSPTOS . PALABRA RPAREN PTO
+
+    PALABRA         shift and go to state 104
+
+
+state 93
+
+    (43) PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS . PALABRA RPAREN PTO
+
+    PALABRA         shift and go to state 105
+
+
+state 94
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE . INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE . INSTRUCCION RBRACE PTO
+    (10) INSTRUCCION -> . DEF_rule
+    (11) INSTRUCCION -> . FUNC
+    (12) INSTRUCCION -> . ASSIGN_rule
+    (13) INSTRUCCION -> . COMENTARIO
+    (14) INSTRUCCION -> . IF_rule
+    (15) INSTRUCCION -> . WHILE_rule
+    (16) INSTRUCCION -> . PIN_rule
+    (17) INSTRUCCION -> . MOV
+    (18) INSTRUCCION -> . EMPTY
+    (19) DEF_rule -> . DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> . DEF TIPODATO PALABRA PTO
+    (31) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> . PALABRA ASSIGN VALORVAR PTO
+    (35) COMENTARIO -> . COMBLOQUE
+    (36) COMENTARIO -> . COMLINEA
+    (37) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+    (39) WHILE_rule -> . WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (42) PIN_rule -> . DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> . DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (44) MOV -> . ADEL LPAREN RPAREN PTO
+    (45) MOV -> . ATR LPAREN RPAREN PTO
+    (46) MOV -> . IZQ LPAREN RPAREN PTO
+    (47) MOV -> . DER LPAREN RPAREN PTO
+    (48) MOV -> . FREN LPAREN RPAREN PTO
+    (49) MOV -> . ESP LPAREN INT RPAREN PTO
+    (50) MOV -> . ESP LPAREN FLOAT RPAREN PTO
+    (51) EMPTY -> .
+
+    DEF             shift and go to state 18
+    PALABRA         shift and go to state 19
+    COMBLOQUE       shift and go to state 20
+    COMLINEA        shift and go to state 21
+    IF              shift and go to state 22
+    WHILE           shift and go to state 23
+    ADEL            shift and go to state 24
+    ATR             shift and go to state 25
+    IZQ             shift and go to state 26
+    DER             shift and go to state 27
+    FREN            shift and go to state 28
+    ESP             shift and go to state 29
+    RETORNO         reduce using rule 51 (EMPTY -> .)
+    RBRACE          reduce using rule 51 (EMPTY -> .)
+
+    INSTRUCCION                    shift and go to state 106
+    DEF_rule                       shift and go to state 10
+    FUNC                           shift and go to state 11
+    ASSIGN_rule                    shift and go to state 12
+    COMENTARIO                     shift and go to state 13
+    IF_rule                        shift and go to state 14
+    WHILE_rule                     shift and go to state 15
+    PIN_rule                       shift and go to state 16
+    MOV                            shift and go to state 17
+    EMPTY                          shift and go to state 107
+
+state 95
+
+    (34) PARAM_LIST -> TIPODATO PALABRA PTOCOMA . PARAM_LIST
+    (33) PARAM_LIST -> . TIPODATO PALABRA
+    (34) PARAM_LIST -> . TIPODATO PALABRA PTOCOMA PARAM_LIST
+    (21) TIPODATO -> . ENTERO
+    (22) TIPODATO -> . TEXTO
+    (23) TIPODATO -> . DECIMAL
+    (24) TIPODATO -> . LOGICO
+
+    ENTERO          shift and go to state 35
+    TEXTO           shift and go to state 36
+    DECIMAL         shift and go to state 37
+    LOGICO          shift and go to state 38
+
+    TIPODATO                       shift and go to state 53
+    PARAM_LIST                     shift and go to state 108
+
+state 96
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE . CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE . CUERPO RBRACE
+    (7) CUERPO -> . INSTRUCCION CUERPO
+    (8) CUERPO -> . INSTRUCCION
+    (9) CUERPO -> . EMPTY
+    (10) INSTRUCCION -> . DEF_rule
+    (11) INSTRUCCION -> . FUNC
+    (12) INSTRUCCION -> . ASSIGN_rule
+    (13) INSTRUCCION -> . COMENTARIO
+    (14) INSTRUCCION -> . IF_rule
+    (15) INSTRUCCION -> . WHILE_rule
+    (16) INSTRUCCION -> . PIN_rule
+    (17) INSTRUCCION -> . MOV
+    (18) INSTRUCCION -> . EMPTY
+    (51) EMPTY -> .
+    (19) DEF_rule -> . DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> . DEF TIPODATO PALABRA PTO
+    (31) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> . PALABRA ASSIGN VALORVAR PTO
+    (35) COMENTARIO -> . COMBLOQUE
+    (36) COMENTARIO -> . COMLINEA
+    (37) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+    (39) WHILE_rule -> . WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (42) PIN_rule -> . DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> . DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (44) MOV -> . ADEL LPAREN RPAREN PTO
+    (45) MOV -> . ATR LPAREN RPAREN PTO
+    (46) MOV -> . IZQ LPAREN RPAREN PTO
+    (47) MOV -> . DER LPAREN RPAREN PTO
+    (48) MOV -> . FREN LPAREN RPAREN PTO
+    (49) MOV -> . ESP LPAREN INT RPAREN PTO
+    (50) MOV -> . ESP LPAREN FLOAT RPAREN PTO
+
+  ! shift/reduce conflict for DEF resolved as shift
+  ! shift/reduce conflict for PALABRA resolved as shift
+  ! shift/reduce conflict for COMBLOQUE resolved as shift
+  ! shift/reduce conflict for COMLINEA resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for ADEL resolved as shift
+  ! shift/reduce conflict for ATR resolved as shift
+  ! shift/reduce conflict for IZQ resolved as shift
+  ! shift/reduce conflict for DER resolved as shift
+  ! shift/reduce conflict for FREN resolved as shift
+  ! shift/reduce conflict for ESP resolved as shift
+    RBRACE          reduce using rule 51 (EMPTY -> .)
+    DEF             shift and go to state 18
+    PALABRA         shift and go to state 19
+    COMBLOQUE       shift and go to state 20
+    COMLINEA        shift and go to state 21
+    IF              shift and go to state 22
+    WHILE           shift and go to state 23
+    ADEL            shift and go to state 24
+    ATR             shift and go to state 25
+    IZQ             shift and go to state 26
+    DER             shift and go to state 27
+    FREN            shift and go to state 28
+    ESP             shift and go to state 29
+
+  ! DEF             [ reduce using rule 51 (EMPTY -> .) ]
+  ! PALABRA         [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMBLOQUE       [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMLINEA        [ reduce using rule 51 (EMPTY -> .) ]
+  ! IF              [ reduce using rule 51 (EMPTY -> .) ]
+  ! WHILE           [ reduce using rule 51 (EMPTY -> .) ]
+  ! ADEL            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ATR             [ reduce using rule 51 (EMPTY -> .) ]
+  ! IZQ             [ reduce using rule 51 (EMPTY -> .) ]
+  ! DER             [ reduce using rule 51 (EMPTY -> .) ]
+  ! FREN            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ESP             [ reduce using rule 51 (EMPTY -> .) ]
+
+    CUERPO                         shift and go to state 109
+    INSTRUCCION                    shift and go to state 8
+    EMPTY                          shift and go to state 9
+    DEF_rule                       shift and go to state 10
+    FUNC                           shift and go to state 11
+    ASSIGN_rule                    shift and go to state 12
+    COMENTARIO                     shift and go to state 13
+    IF_rule                        shift and go to state 14
+    WHILE_rule                     shift and go to state 15
+    PIN_rule                       shift and go to state 16
+    MOV                            shift and go to state 17
+
+state 97
+
+    (40) COMPARA -> VALORVAR COMPARACION VALORVAR .
+
+    RPAREN          reduce using rule 40 (COMPARA -> VALORVAR COMPARACION VALORVAR .)
+
+
+state 98
+
+    (39) WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE . CUERPO RBRACE PTO
+    (7) CUERPO -> . INSTRUCCION CUERPO
+    (8) CUERPO -> . INSTRUCCION
+    (9) CUERPO -> . EMPTY
+    (10) INSTRUCCION -> . DEF_rule
+    (11) INSTRUCCION -> . FUNC
+    (12) INSTRUCCION -> . ASSIGN_rule
+    (13) INSTRUCCION -> . COMENTARIO
+    (14) INSTRUCCION -> . IF_rule
+    (15) INSTRUCCION -> . WHILE_rule
+    (16) INSTRUCCION -> . PIN_rule
+    (17) INSTRUCCION -> . MOV
+    (18) INSTRUCCION -> . EMPTY
+    (51) EMPTY -> .
+    (19) DEF_rule -> . DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> . DEF TIPODATO PALABRA PTO
+    (31) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> . PALABRA ASSIGN VALORVAR PTO
+    (35) COMENTARIO -> . COMBLOQUE
+    (36) COMENTARIO -> . COMLINEA
+    (37) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+    (39) WHILE_rule -> . WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (42) PIN_rule -> . DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> . DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (44) MOV -> . ADEL LPAREN RPAREN PTO
+    (45) MOV -> . ATR LPAREN RPAREN PTO
+    (46) MOV -> . IZQ LPAREN RPAREN PTO
+    (47) MOV -> . DER LPAREN RPAREN PTO
+    (48) MOV -> . FREN LPAREN RPAREN PTO
+    (49) MOV -> . ESP LPAREN INT RPAREN PTO
+    (50) MOV -> . ESP LPAREN FLOAT RPAREN PTO
+
+  ! shift/reduce conflict for DEF resolved as shift
+  ! shift/reduce conflict for PALABRA resolved as shift
+  ! shift/reduce conflict for COMBLOQUE resolved as shift
+  ! shift/reduce conflict for COMLINEA resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for ADEL resolved as shift
+  ! shift/reduce conflict for ATR resolved as shift
+  ! shift/reduce conflict for IZQ resolved as shift
+  ! shift/reduce conflict for DER resolved as shift
+  ! shift/reduce conflict for FREN resolved as shift
+  ! shift/reduce conflict for ESP resolved as shift
+    RBRACE          reduce using rule 51 (EMPTY -> .)
+    DEF             shift and go to state 18
+    PALABRA         shift and go to state 19
+    COMBLOQUE       shift and go to state 20
+    COMLINEA        shift and go to state 21
+    IF              shift and go to state 22
+    WHILE           shift and go to state 23
+    ADEL            shift and go to state 24
+    ATR             shift and go to state 25
+    IZQ             shift and go to state 26
+    DER             shift and go to state 27
+    FREN            shift and go to state 28
+    ESP             shift and go to state 29
+
+  ! DEF             [ reduce using rule 51 (EMPTY -> .) ]
+  ! PALABRA         [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMBLOQUE       [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMLINEA        [ reduce using rule 51 (EMPTY -> .) ]
+  ! IF              [ reduce using rule 51 (EMPTY -> .) ]
+  ! WHILE           [ reduce using rule 51 (EMPTY -> .) ]
+  ! ADEL            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ATR             [ reduce using rule 51 (EMPTY -> .) ]
+  ! IZQ             [ reduce using rule 51 (EMPTY -> .) ]
+  ! DER             [ reduce using rule 51 (EMPTY -> .) ]
+  ! FREN            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ESP             [ reduce using rule 51 (EMPTY -> .) ]
+
+    CUERPO                         shift and go to state 110
+    INSTRUCCION                    shift and go to state 8
+    EMPTY                          shift and go to state 9
+    DEF_rule                       shift and go to state 10
+    FUNC                           shift and go to state 11
+    ASSIGN_rule                    shift and go to state 12
+    COMENTARIO                     shift and go to state 13
+    IF_rule                        shift and go to state 14
+    WHILE_rule                     shift and go to state 15
+    PIN_rule                       shift and go to state 16
+    MOV                            shift and go to state 17
+
+state 99
+
+    (49) MOV -> ESP LPAREN INT RPAREN PTO .
+
+    DEF             reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    PALABRA         reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    COMBLOQUE       reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    COMLINEA        reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    IF              reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    WHILE           reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    ADEL            reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    ATR             reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    IZQ             reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    DER             reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    FREN            reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    ESP             reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    TERMINAR        reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    RBRACE          reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+    RETORNO         reduce using rule 49 (MOV -> ESP LPAREN INT RPAREN PTO .)
+
+
+state 100
+
+    (50) MOV -> ESP LPAREN FLOAT RPAREN PTO .
+
+    DEF             reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    PALABRA         reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    COMBLOQUE       reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    COMLINEA        reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    IF              reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    WHILE           reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    ADEL            reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    ATR             reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    IZQ             reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    DER             reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    FREN            reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    ESP             reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    TERMINAR        reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    RBRACE          reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+    RETORNO         reduce using rule 50 (MOV -> ESP LPAREN FLOAT RPAREN PTO .)
+
+
+state 101
+
+    (4) LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN . PTO
+
+    PTO             shift and go to state 111
+
+
+state 102
+
+    (5) LIBRERIASLIST -> PALABRA PTO PALABRA .
+    (6) LIBRERIASLIST -> PALABRA PTO PALABRA . PTOCOMA LIBRERIASLIST
+
+    COMILLA         reduce using rule 5 (LIBRERIASLIST -> PALABRA PTO PALABRA .)
+    PTOCOMA         shift and go to state 112
+
+
+state 103
+
+    (19) DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .
+
+    DEF             reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    PALABRA         reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    COMBLOQUE       reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    COMLINEA        reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    IF              reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    WHILE           reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    ADEL            reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    ATR             reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    IZQ             reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    DER             reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    FREN            reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    ESP             reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    TERMINAR        reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    RBRACE          reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+    RETORNO         reduce using rule 19 (DEF_rule -> DEF TIPODATO PALABRA ASSIGN VALORVAR PTO .)
+
+
+state 104
+
+    (42) PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA . RPAREN PTO
+
+    RPAREN          shift and go to state 113
+
+
+state 105
+
+    (43) PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA . RPAREN PTO
+
+    RPAREN          shift and go to state 114
+
+
+state 106
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION . RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION . RBRACE PTO
+
+    RETORNO         shift and go to state 115
+    RBRACE          shift and go to state 116
+
+
+state 107
+
+    (18) INSTRUCCION -> EMPTY .
+
+    RETORNO         reduce using rule 18 (INSTRUCCION -> EMPTY .)
+    RBRACE          reduce using rule 18 (INSTRUCCION -> EMPTY .)
+
+
+state 108
+
+    (34) PARAM_LIST -> TIPODATO PALABRA PTOCOMA PARAM_LIST .
+
+    RPAREN          reduce using rule 34 (PARAM_LIST -> TIPODATO PALABRA PTOCOMA PARAM_LIST .)
+
+
+state 109
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO . RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO . RBRACE
+
+    RBRACE          shift and go to state 117
+
+
+state 110
+
+    (39) WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO . RBRACE PTO
+
+    RBRACE          shift and go to state 118
+
+
+state 111
+
+    (4) LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .
+
+    DEF             reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    PALABRA         reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    COMBLOQUE       reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    COMLINEA        reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    IF              reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    WHILE           reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    ADEL            reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    ATR             reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    IZQ             reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    DER             reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    FREN            reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    ESP             reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+    TERMINAR        reduce using rule 4 (LIBRERIASP -> EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO .)
+
+
+state 112
+
+    (6) LIBRERIASLIST -> PALABRA PTO PALABRA PTOCOMA . LIBRERIASLIST
+    (5) LIBRERIASLIST -> . PALABRA PTO PALABRA
+    (6) LIBRERIASLIST -> . PALABRA PTO PALABRA PTOCOMA LIBRERIASLIST
+
+    PALABRA         shift and go to state 71
+
+    LIBRERIASLIST                  shift and go to state 119
+
+state 113
+
+    (42) PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN . PTO
+
+    PTO             shift and go to state 120
+
+
+state 114
+
+    (43) PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN . PTO
+
+    PTO             shift and go to state 121
+
+
+state 115
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO . PALABRA PTO RBRACE PTO
+
+    PALABRA         shift and go to state 122
+
+
+state 116
+
+    (32) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE . PTO
+
+    PTO             shift and go to state 123
+
+
+state 117
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE . ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .
+
+    ELSE            shift and go to state 124
+    DEF             reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    PALABRA         reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    COMBLOQUE       reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    COMLINEA        reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    IF              reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    WHILE           reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    ADEL            reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    ATR             reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    IZQ             reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    DER             reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    FREN            reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    ESP             reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    TERMINAR        reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    RBRACE          reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+    RETORNO         reduce using rule 38 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE .)
+
+
+state 118
+
+    (39) WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE . PTO
+
+    PTO             shift and go to state 125
+
+
+state 119
+
+    (6) LIBRERIASLIST -> PALABRA PTO PALABRA PTOCOMA LIBRERIASLIST .
+
+    COMILLA         reduce using rule 6 (LIBRERIASLIST -> PALABRA PTO PALABRA PTOCOMA LIBRERIASLIST .)
+
+
+state 120
+
+    (42) PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .
+
+    DEF             reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    PALABRA         reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    COMBLOQUE       reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    COMLINEA        reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    IF              reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    WHILE           reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    ADEL            reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    ATR             reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    IZQ             reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    DER             reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    FREN            reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    ESP             reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    TERMINAR        reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    RBRACE          reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+    RETORNO         reduce using rule 42 (PIN_rule -> DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO .)
+
+
+state 121
+
+    (43) PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .
+
+    DEF             reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    PALABRA         reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    COMBLOQUE       reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    COMLINEA        reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    IF              reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    WHILE           reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    ADEL            reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    ATR             reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    IZQ             reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    DER             reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    FREN            reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    ESP             reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    TERMINAR        reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    RBRACE          reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+    RETORNO         reduce using rule 43 (PIN_rule -> DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO .)
+
+
+state 122
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA . PTO RBRACE PTO
+
+    PTO             shift and go to state 126
+
+
+state 123
+
+    (32) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .
+
+    DEF             reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    PALABRA         reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    COMBLOQUE       reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    COMLINEA        reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    IF              reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    WHILE           reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    ADEL            reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    ATR             reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    IZQ             reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    DER             reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    FREN            reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    ESP             reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    TERMINAR        reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    RBRACE          reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+    RETORNO         reduce using rule 32 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO .)
+
+
+state 124
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE . LBRACE CUERPO RBRACE
+
+    LBRACE          shift and go to state 127
+
+
+state 125
+
+    (39) WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .
+
+    DEF             reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    PALABRA         reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    COMBLOQUE       reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    COMLINEA        reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    IF              reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    WHILE           reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    ADEL            reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    ATR             reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    IZQ             reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    DER             reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    FREN            reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    ESP             reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    TERMINAR        reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    RBRACE          reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+    RETORNO         reduce using rule 39 (WHILE_rule -> WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO .)
+
+
+state 126
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO . RBRACE PTO
+
+    RBRACE          shift and go to state 128
+
+
+state 127
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE . CUERPO RBRACE
+    (7) CUERPO -> . INSTRUCCION CUERPO
+    (8) CUERPO -> . INSTRUCCION
+    (9) CUERPO -> . EMPTY
+    (10) INSTRUCCION -> . DEF_rule
+    (11) INSTRUCCION -> . FUNC
+    (12) INSTRUCCION -> . ASSIGN_rule
+    (13) INSTRUCCION -> . COMENTARIO
+    (14) INSTRUCCION -> . IF_rule
+    (15) INSTRUCCION -> . WHILE_rule
+    (16) INSTRUCCION -> . PIN_rule
+    (17) INSTRUCCION -> . MOV
+    (18) INSTRUCCION -> . EMPTY
+    (51) EMPTY -> .
+    (19) DEF_rule -> . DEF TIPODATO PALABRA ASSIGN VALORVAR PTO
+    (20) DEF_rule -> . DEF TIPODATO PALABRA PTO
+    (31) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
+    (32) FUNC -> . PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO
+    (25) ASSIGN_rule -> . PALABRA ASSIGN VALORVAR PTO
+    (35) COMENTARIO -> . COMBLOQUE
+    (36) COMENTARIO -> . COMLINEA
+    (37) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
+    (38) IF_rule -> . IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE
+    (39) WHILE_rule -> . WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO
+    (42) PIN_rule -> . DEF PIN LPAREN PININ DOSPTOS PALABRA RPAREN PTO
+    (43) PIN_rule -> . DEF PIN LPAREN PINOU DOSPTOS PALABRA RPAREN PTO
+    (44) MOV -> . ADEL LPAREN RPAREN PTO
+    (45) MOV -> . ATR LPAREN RPAREN PTO
+    (46) MOV -> . IZQ LPAREN RPAREN PTO
+    (47) MOV -> . DER LPAREN RPAREN PTO
+    (48) MOV -> . FREN LPAREN RPAREN PTO
+    (49) MOV -> . ESP LPAREN INT RPAREN PTO
+    (50) MOV -> . ESP LPAREN FLOAT RPAREN PTO
+
+  ! shift/reduce conflict for DEF resolved as shift
+  ! shift/reduce conflict for PALABRA resolved as shift
+  ! shift/reduce conflict for COMBLOQUE resolved as shift
+  ! shift/reduce conflict for COMLINEA resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for ADEL resolved as shift
+  ! shift/reduce conflict for ATR resolved as shift
+  ! shift/reduce conflict for IZQ resolved as shift
+  ! shift/reduce conflict for DER resolved as shift
+  ! shift/reduce conflict for FREN resolved as shift
+  ! shift/reduce conflict for ESP resolved as shift
+    RBRACE          reduce using rule 51 (EMPTY -> .)
+    DEF             shift and go to state 18
+    PALABRA         shift and go to state 19
+    COMBLOQUE       shift and go to state 20
+    COMLINEA        shift and go to state 21
+    IF              shift and go to state 22
+    WHILE           shift and go to state 23
+    ADEL            shift and go to state 24
+    ATR             shift and go to state 25
+    IZQ             shift and go to state 26
+    DER             shift and go to state 27
+    FREN            shift and go to state 28
+    ESP             shift and go to state 29
+
+  ! DEF             [ reduce using rule 51 (EMPTY -> .) ]
+  ! PALABRA         [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMBLOQUE       [ reduce using rule 51 (EMPTY -> .) ]
+  ! COMLINEA        [ reduce using rule 51 (EMPTY -> .) ]
+  ! IF              [ reduce using rule 51 (EMPTY -> .) ]
+  ! WHILE           [ reduce using rule 51 (EMPTY -> .) ]
+  ! ADEL            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ATR             [ reduce using rule 51 (EMPTY -> .) ]
+  ! IZQ             [ reduce using rule 51 (EMPTY -> .) ]
+  ! DER             [ reduce using rule 51 (EMPTY -> .) ]
+  ! FREN            [ reduce using rule 51 (EMPTY -> .) ]
+  ! ESP             [ reduce using rule 51 (EMPTY -> .) ]
+
+    CUERPO                         shift and go to state 129
+    INSTRUCCION                    shift and go to state 8
+    EMPTY                          shift and go to state 9
+    DEF_rule                       shift and go to state 10
+    FUNC                           shift and go to state 11
+    ASSIGN_rule                    shift and go to state 12
+    COMENTARIO                     shift and go to state 13
+    IF_rule                        shift and go to state 14
+    WHILE_rule                     shift and go to state 15
+    PIN_rule                       shift and go to state 16
+    MOV                            shift and go to state 17
+
+state 128
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE . PTO
+
+    PTO             shift and go to state 130
+
+
+state 129
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO . RBRACE
+
+    RBRACE          shift and go to state 131
+
+
+state 130
+
+    (31) FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .
+
+    DEF             reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    PALABRA         reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    COMBLOQUE       reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    COMLINEA        reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    IF              reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    WHILE           reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    ADEL            reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    ATR             reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    IZQ             reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    DER             reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    FREN            reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    ESP             reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    TERMINAR        reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    RBRACE          reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+    RETORNO         reduce using rule 31 (FUNC -> PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO .)
+
+
+state 131
+
+    (37) IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .
+
+    DEF             reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    PALABRA         reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    COMBLOQUE       reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    COMLINEA        reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    IF              reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    WHILE           reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    ADEL            reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    ATR             reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    IZQ             reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    DER             reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    FREN            reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    ESP             reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    TERMINAR        reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    RBRACE          reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+    RETORNO         reduce using rule 37 (IF_rule -> IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for DEF in state 3 resolved as shift
+WARNING: shift/reduce conflict for PALABRA in state 3 resolved as shift
+WARNING: shift/reduce conflict for COMBLOQUE in state 3 resolved as shift
+WARNING: shift/reduce conflict for COMLINEA in state 3 resolved as shift
+WARNING: shift/reduce conflict for IF in state 3 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 3 resolved as shift
+WARNING: shift/reduce conflict for ADEL in state 3 resolved as shift
+WARNING: shift/reduce conflict for ATR in state 3 resolved as shift
+WARNING: shift/reduce conflict for IZQ in state 3 resolved as shift
+WARNING: shift/reduce conflict for DER in state 3 resolved as shift
+WARNING: shift/reduce conflict for FREN in state 3 resolved as shift
+WARNING: shift/reduce conflict for ESP in state 3 resolved as shift
+WARNING: shift/reduce conflict for DEF in state 8 resolved as shift
+WARNING: shift/reduce conflict for PALABRA in state 8 resolved as shift
+WARNING: shift/reduce conflict for COMBLOQUE in state 8 resolved as shift
+WARNING: shift/reduce conflict for COMLINEA in state 8 resolved as shift
+WARNING: shift/reduce conflict for IF in state 8 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 8 resolved as shift
+WARNING: shift/reduce conflict for ADEL in state 8 resolved as shift
+WARNING: shift/reduce conflict for ATR in state 8 resolved as shift
+WARNING: shift/reduce conflict for IZQ in state 8 resolved as shift
+WARNING: shift/reduce conflict for DER in state 8 resolved as shift
+WARNING: shift/reduce conflict for FREN in state 8 resolved as shift
+WARNING: shift/reduce conflict for ESP in state 8 resolved as shift
+WARNING: shift/reduce conflict for DEF in state 96 resolved as shift
+WARNING: shift/reduce conflict for PALABRA in state 96 resolved as shift
+WARNING: shift/reduce conflict for COMBLOQUE in state 96 resolved as shift
+WARNING: shift/reduce conflict for COMLINEA in state 96 resolved as shift
+WARNING: shift/reduce conflict for IF in state 96 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 96 resolved as shift
+WARNING: shift/reduce conflict for ADEL in state 96 resolved as shift
+WARNING: shift/reduce conflict for ATR in state 96 resolved as shift
+WARNING: shift/reduce conflict for IZQ in state 96 resolved as shift
+WARNING: shift/reduce conflict for DER in state 96 resolved as shift
+WARNING: shift/reduce conflict for FREN in state 96 resolved as shift
+WARNING: shift/reduce conflict for ESP in state 96 resolved as shift
+WARNING: shift/reduce conflict for DEF in state 98 resolved as shift
+WARNING: shift/reduce conflict for PALABRA in state 98 resolved as shift
+WARNING: shift/reduce conflict for COMBLOQUE in state 98 resolved as shift
+WARNING: shift/reduce conflict for COMLINEA in state 98 resolved as shift
+WARNING: shift/reduce conflict for IF in state 98 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 98 resolved as shift
+WARNING: shift/reduce conflict for ADEL in state 98 resolved as shift
+WARNING: shift/reduce conflict for ATR in state 98 resolved as shift
+WARNING: shift/reduce conflict for IZQ in state 98 resolved as shift
+WARNING: shift/reduce conflict for DER in state 98 resolved as shift
+WARNING: shift/reduce conflict for FREN in state 98 resolved as shift
+WARNING: shift/reduce conflict for ESP in state 98 resolved as shift
+WARNING: shift/reduce conflict for DEF in state 127 resolved as shift
+WARNING: shift/reduce conflict for PALABRA in state 127 resolved as shift
+WARNING: shift/reduce conflict for COMBLOQUE in state 127 resolved as shift
+WARNING: shift/reduce conflict for COMLINEA in state 127 resolved as shift
+WARNING: shift/reduce conflict for IF in state 127 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 127 resolved as shift
+WARNING: shift/reduce conflict for ADEL in state 127 resolved as shift
+WARNING: shift/reduce conflict for ATR in state 127 resolved as shift
+WARNING: shift/reduce conflict for IZQ in state 127 resolved as shift
+WARNING: shift/reduce conflict for DER in state 127 resolved as shift
+WARNING: shift/reduce conflict for FREN in state 127 resolved as shift
+WARNING: shift/reduce conflict for ESP in state 127 resolved as shift
+WARNING: reduce/reduce conflict in state 8 resolved using rule (CUERPO -> INSTRUCCION)
+WARNING: rejected rule (EMPTY -> <empty>) in state 8
+WARNING: reduce/reduce conflict in state 9 resolved using rule (CUERPO -> EMPTY)
+WARNING: rejected rule (INSTRUCCION -> EMPTY) in state 9

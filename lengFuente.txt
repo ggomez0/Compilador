@@ -1,4 +1,21 @@
 EMPEZAR
 extend("nombreDeLibreria.Extension").
-DEF entero MD2 := 10.
+DEF entero MD1.
+DEF entero MD2:=3./*INICIO DE LA SECCION SETUP
+DEF PIN(PINOU:MD1).
+DEF PIN(PININ:MD2).
+prenderluz (entero a;entero b){
+    MD1:=true.
+}.
+suma443 (entero a;entero b) {
+    b:=3.8.
+    retorno suma.
+}.
+IF (md1>true){
+    MD2:=true.
+}
+ELSE {
+    md3:=false.
+}
+ADEL().
 TERMINAR
