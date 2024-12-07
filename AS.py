@@ -42,12 +42,16 @@ def p_CUERPO(p):
               | INSTRUCCION
               | EMPTY'''
     if len(p) == 3:
-        p[0] = p[1] + [p[2]]
+        if p[1] and p[2]:
+            p[0] = [p[1]] + (p[2] if isinstance(p[2], list) else [p[2]])
+        elif p[1]:
+            p[0] = [p[1]]
+        else:
+            p[0] = p[2] if p[2] else []
     elif len(p) == 2:
-        p[0] = [p[1]] 
+        p[0] = [p[1]] if p[1] else []
     else:
         p[0] = []
-    pass
 
 def p_INSTRUCCION(p):
     '''INSTRUCCION : DEF_rule
@@ -83,7 +87,7 @@ def p_TIPODATO(p):
 
 def p_ASSIGN_rule(p):
     '''ASSIGN_rule : PALABRA ASSIGN VALORVAR PTO'''
-    p[0] = f"{p[1]} = {p[3]}"
+    p[0] = f"{p[1]} = {p[3]};"
     pass
 
 def p_VALORVAR(p):
@@ -93,13 +97,15 @@ def p_VALORVAR(p):
                 | INT
                 | FLOAT
                 '''
-    p[0] = p[1]
+    if p.slice[1].type in ['INT', 'FLOAT']:
+        p[0] = str(p[1])
+    else:
+        p[0] = p[1]
     pass
 
 def p_FUNC(p):
-    '''FUNC : PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RETORNO PALABRA PTO RBRACE PTO
-            | PALABRA LPAREN PARAM_LIST RPAREN LBRACE INSTRUCCION RBRACE PTO'''
-    p[0] = p[1]
+    '''FUNC : PALABRA LPAREN PARAM_LIST RPAREN LBRACE CUERPO RETORNO PALABRA PTO RBRACE PTO
+            | PALABRA LPAREN PARAM_LIST RPAREN LBRACE CUERPO RBRACE PTO'''
     traductor(p, trad_func)
     pass
 
@@ -120,13 +126,13 @@ def p_COMENTARIO(p):
 def p_IF_rule(p):
     '''IF_rule : IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
                 | IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
-    p[0] = p[1]
     traductor(p, trad_if)
     pass
 
 
 def p_WHILE_rule(p):
-    '''WHILE_rule : WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE PTO'''
+    '''WHILE_rule : WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
+    traductor(p, trad_while)
     pass
 
 def p_COMPARA(p):

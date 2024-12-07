@@ -9,7 +9,6 @@ try:
     f = open(filename)
     data = f.read()
     f.close()
-    print('Contenido del archivo:\n',data,'\n')
 except IndexError:
     print('Error en archivo:\n')
     data = ''

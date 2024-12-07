@@ -1,117 +1,117 @@
-#Traductor.py
+def traductor(p, funcion, primer_pin=False, pin=False, primer_mov=False, mov=False):
+    with open("salida.ino", "r") as fileRead:
+        file_content = fileRead.readlines()
+    with open("salida.ino", "w") as fileWrite:
+        if p:
+            if pin:
+                if primer_pin:
+                    # Asegura que el `setup` solo se agregue una vez
+                    if "void setup()" not in "".join(file_content):
+                        file_content += ['void setup(){\n'] + ['\n'] + ['}\n']
+                index = file_content.index('\n')
+                file_content.insert(index, funcion(p))  # Inserta función traducida
+                fileWrite.write("".join(file_content))
+                return
+            
+            if mov:
+                if primer_mov:
+                    # Asegura que el `loop` solo se agregue una vez
+                    if "void loop()" not in "".join(file_content):
+                        file_content += ['void loop(){\n'] + ['\n'] + ['}\n']
+                # Encuentra índice adecuado para `loop`
+                index = file_content.index('\n', file_content.index('\n') + 1)
+                file_content.insert(index, funcion(p))
+                fileWrite.write("".join(file_content))
+                return
+            
+            file_content.append(funcion(p))
+            fileWrite.write("".join(file_content))
 
-# Función principal para traducir código a Arduino
-def traductor(p,funcion,primer_pin=False,pin=False,primer_mov=False,mov=False):
-  # Abrir el archivo de salida en modo lectura
-  with open("salida.ino","r") as fileRead:
-    # Leer el contenido del archivo
-    file_content=fileRead.readlines()
-  # Abrir el archivo de salida en modo escritura
-  with open("salida.ino","w") as fileWrite:
-    # Si se proporciona un parámetro p
-    if (p):
-      # Si se solicita la configuración de un pin
-      if(pin):
-        # Si es el primer pin, agregar la función setup
-        if(primer_pin):
-          file_content+=['void setup(){\n'] + ['\n'] +['}\n']
-        # Insertar la configuración del pin en el contenido del archivo
-        index = file_content.index('\n')
-        file_content.insert(index, funcion(p))
-        # Escribir el contenido modificado en el archivo
-        fileWrite.write("".join(file_content))
-        return
-      # Si se solicita un movimiento
-      if(mov):
-        # Si es el primer movimiento, agregar la función loop
-        if(primer_mov):
-          file_content+=['void loop(){\n'] + ['\n'] +['}\n']
-        # Insertar el movimiento en el contenido del archivo
-        index = file_content.index('\n',file_content.index('\n')+1)
-        file_content.insert(index, funcion(p))
-        # Escribir el contenido modificado en el archivo
-        fileWrite.write("".join(file_content))
-        return
-      # Si no se solicita pin ni movimiento, simplemente agregar el contenido
-      file_content.append(funcion(p))
-      # Escribir el contenido modificado en el archivo
-      fileWrite.write("".join(file_content))
-
-# Función para traducir la inclusión de librerías
 def trad_librerias(p):
-    # Convertir el parámetro a una lista para acceder a sus caracteres
-    list_p = list(p)
-    print ("####44",list_p)
-    # Retorna la inclusión de la librería formateada, cada una en una línea separada
-    return "\n".join([f"#include <{lib}>" for lib in list_p[3]]) + "\n"
+    librerias = ""
+    for lib in p[4]:
+        librerias += f"#include <{lib}>\n"
+    return librerias
 
-# Función para traducir la declaración de variables
 def trad_def(p):
-    # Convertir el parámetro a una lista para acceder a sus caracteres
-    list_p = list(p)
-    print ('###60', list_p)
-    print ('###61', list_p[2])
-    # Determinar el tipo de variable y retornar la declaración formateada
-    if list_p[2] == 'palResInt':
-      return 'int  ' + f'{list_p[4]};' + "\n"
-    elif list_p[2] == 'palResString':
-      return 'string  ' + f'{list_p[4]};' + "\n"
-    elif list_p[2] == 'palResBool':
-      return 'bool  ' + f'{list_p[4]};' + "\n"
-    elif list_p[2] == 'palResFloat':
-      return 'float  ' + f'{list_p[4]};' + "\n"
+    tipo = p[2]
+    nombre = p[3]
+    valor = p[5] if len(p) > 5 else None
+    tipo_map = {'entero': 'int', 'texto': 'string', 'decimal': 'float', 'logico': 'bool'}
+    tipo_traducido = tipo_map.get(tipo, tipo)
+    if valor:
+        return f"{tipo_traducido} {nombre};\n{nombre} = {valor};\n"
+    else:
+        return f"{tipo_traducido} {nombre};\n"
 
-# Función para traducir la asignación de valores a variables
-def trad_asign(p):
-    # Convertir el parámetro a una lista para acceder a sus caracteres
-    list_p = list(p)
-    print('###65')
-    print ('###60', list_p)
-    # Retorna la asignación formateada
-    return f'{list_p[1]} = {list_p[3]};' + "\n"
-
-# Función para traducir la configuración de pines
 def trad_pin(p):
-    # Convertir el parámetro a una lista para acceder a sus caracteres
-    list_p = list(p)
-    print ('###72', list_p)
-    # Determinar el tipo de configuración del pin y retornar la configuración formateada
-    if list_p[3] == 'SAL':
-      return f'pinMode({list_p[5]}, OUTPUT);'+"\n"
-    elif list_p[3] == 'ENT':
-      return f'pinMode({list_p[5]}, INPUT);'+"\n"
+    if p[4] == "PINOU":
+        return f"pinMode({p[6]}, OUTPUT);\n"
+    elif p[4] == "PININ":
+        return f"pinMode({p[6]}, INPUT);\n"
 
-# Función para traducir los movimientos del robot
+def trad_assign(p):
+    return f"{p[1]} = {p[3]};\n"
+
 def trad_mov(p):
-    # Convertir el parámetro a una lista para acceder a sus caracteres
-    list_p = list(p)
-    # Determinar el tipo de movimiento y retornar el movimiento formateado
-    if list_p[1] == 'ADEL':
-      return 'avanzar();'+"\n"
-    elif list_p[1] == 'ATRAS':
-      return 'retroceder();'+"\n"
-    elif list_p[1] == 'IZQUIERDA':
-      return 'giro_izquierda();'+"\n"
-    elif list_p[1] == 'DER':
-      return 'giro_derecha();'+"\n"
-    elif list_p[1] == 'STOP':
-      return 'parar();'+"\n"
-    elif list_p[1] == 'ESP':
-      return f'esperar({list_p[3]});'+"\n"
+    movimientos = {
+        "ADEL": "avanzar();",
+        "ATR": "retroceder();",
+        "IZQ": "giro_izquierda();",
+        "DER": "giro_derecha();",
+        "ESP": f"esperar({p[3]});",
+        "FREN": "parar();"
+    }
+    return movimientos.get(p[1], "") + "\n"
 
-# Función para traducir la definición de funciones
 def trad_func(p):
-    # Convertir el parámetro a una lista para acceder a sus caracteres
-    list_p = list(p)
-    # Retorna la definición de la función formateada
-    result = "".join([list_p[2]]+["()"]+["{"]+["\n"]+["}"]+["\n"])
-    if(list_p[6]==":"):
-      if(list_p[4]==None and list_p[9]==None):
-        result = "".join([list_p[7]]+[list_p[2]]+["()"]+["{"]+["\n"]+["}"]+["\n"])
-    return result
+    nombre = p[1]
+    parametros = p[3] if p[3] else []
+    params = ", ".join([f"{t} {n}" for t, n in parametros])
+    
+    cuerpo = ""
+    if isinstance(p[6], list):
+        for instruccion in p[6]:
+            if instruccion:
+                cuerpo += f"    {instruccion}\n"
+    else:
+        cuerpo = f"    {p[6]}\n" if p[6] else ""
 
-# Función para traducir estructuras de control if
+    if (len(p) == 12):
+        return f"{nombre}({params}) {{\n{cuerpo}return {p[8]};\n}}\n"
+    elif (len(p) == 9):
+        return f"void {nombre}({params}) {{\n{cuerpo}}}\n"
+    
 def trad_if(p):
-    # Retorna la estructura if formateada
-    result = "".join(["if ("]+[") "] + ["{"]+["\n"]+["}"]+["\n"])
-    return result
+    cuerpoif = ""
+    if isinstance(p[6], list):
+        for instruccion in p[6]:
+            if instruccion:
+                cuerpoif += f"    {instruccion}\n"
+    else:
+        cuerpoif = f"    {p[6]}\n" if p[6] else ""
+
+    cuerpoelse = ""
+    if len(p) > 10 and p[10]:
+        if isinstance(p[10], list):
+            for instruccion in p[10]:
+                if instruccion:
+                    cuerpoelse += f"    {instruccion}\n"
+        else:
+            cuerpoelse = f"    {p[10]}\n"
+
+    if len(p) == 8:
+        return f"if ({p[3]}) {{\n{cuerpoif}}}\n"
+    elif len(p) > 8:
+        return f"if ({p[3]}) {{\n{cuerpoif}}} else {{\n{cuerpoelse}}}\n"
+    
+def trad_while(p):
+    cuerpo = ""
+    if isinstance(p[6], list):
+        for instruccion in p[6]:
+            if instruccion:
+                cuerpo += f"    {instruccion}\n"
+    else:
+        cuerpo = f"    {p[6]}\n" if p[6] else ""
+
+    return f"while ({p[3]}) {{\n{cuerpo}}}\n"

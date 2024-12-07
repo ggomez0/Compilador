@@ -9,6 +9,7 @@ prenderluz (entero a;entero b){
 }.
 suma443 (entero a;entero b) {
     b:=3.8.
+    b:=3.93.
     retorno suma.
 }.
 IF (md1>true){
@@ -16,6 +17,11 @@ IF (md1>true){
 }
 ELSE {
     md3:=false.
+    md4:=true.
+    md43:=false.
 }
 ADEL().
+WHILE (I>2){
+    MD3:=2.
+}
 TERMINAR
