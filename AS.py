@@ -12,19 +12,13 @@ def p_INICIO(p):
     pass
 
 def p_LIBRERIAS(p):
-    '''LIBRERIAS : LIBRERIASP 
-                | EMPTY'''
-    if len(p) > 1:
-        p[0] = p[1]
-    else:
+    '''LIBRERIAS : EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO
+                 | EMPTY'''
+    if len(p) == 8:
+        p[0] = p[4]
+        traductor(p, trad_librerias)
+    elif len(p) == 2:
         p[0] = None
-    pass
-
-def p_LIBRERIASP(p):
-    '''LIBRERIASP : EXTEND LPAREN COMILLA LIBRERIASLIST COMILLA RPAREN PTO'''
-    p[0] = p[4]
-    traductor(p, trad_librerias)
-    pass
 
 def p_LIBRERIASLIST(p):
     '''LIBRERIASLIST : PALABRA PTO PALABRA
@@ -124,7 +118,6 @@ def p_IF_rule(p):
                 | IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
     traductor(p, trad_if)
     pass
-
 
 def p_WHILE_rule(p):
     '''WHILE_rule : WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
