@@ -1,12 +1,12 @@
 EMPEZAR
 extend("nombreDeLibreria.Extension;servo.h"). 
 DEF entero MD1.
+@Comentario = = Hola
 DEF entero MD2:=3./*INICIO DE LA SECCION SETUP 
-DEF PIN(PININ:MD1).
+DEF PIN(PINOU:MD1).
 DEF PIN(PINOU:MD2).
 /*FIN DE LA SECCION LOOP 
 ADEL().
-ESP(10).
 IZQ().
 FREN().
 TERMINAR

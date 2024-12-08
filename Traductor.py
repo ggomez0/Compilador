@@ -37,15 +37,15 @@ def trad_def(p):
     tipo_map = {'entero': 'int', 'texto': 'string', 'decimal': 'float', 'logico': 'bool'}
     tipo_traducido = tipo_map.get(tipo, tipo)
     if valor:
-        return f"{tipo_traducido} {nombre};\n{nombre} = {valor};\n"
+        return f"{tipo_traducido} {nombre} = {valor};\n"
     else:
         return f"{tipo_traducido} {nombre};\n"
 
 def trad_pin(p):
     if p[4] == "PINOU":
-        return f"pinMode({p[6]}, OUTPUT);\n"
+        return f"    pinMode({p[6]}, OUTPUT);\n"
     elif p[4] == "PININ":
-        return f"pinMode({p[6]}, INPUT);\n"
+        return f"    pinMode({p[6]}, INPUT);\n"
 
 def trad_assign(p):
     return f"{p[1]} = {p[3]};\n"

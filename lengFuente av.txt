@@ -1,0 +1,32 @@
+EMPEZAR
+extend("nombreDeLibreria.Extension;servo.h"). 
+DEF entero MD1.
+DEF entero MD2:=3.
+DEF PIN(PINOU:MD1).
+DEF PIN(PINOU:MD2).
+mayor(entero a; entero b){
+    a8:=1.
+    b5:=3.
+    IF (MD9>94){
+        md3:=4.
+    }
+    retorno a8.
+}.
+asignar(entero a; entero b){
+    a8:=a.
+    b5:=b.
+}.
+IF (MD2==5){
+    MD4:=2.
+    IF (MD3==9){
+        MD99:=3.
+        WHILE(MD8>8){
+    MD4:=8.
+    }
+    }
+}
+/*FIN DE LA SECCION 
+ADEL().
+IZQ().
+FREN().
+TERMINAR

@@ -5,7 +5,7 @@ from Traductor import *
 
 primer_pin=False
 primer_mov=False
-
+func_passed = False
 
 def p_INICIO(p):
     '''INICIO : EMPEZAR LIBRERIAS CUERPO TERMINAR'''
@@ -43,6 +43,7 @@ def p_CUERPO(p):
             p[0] = p[2] if p[2] else []
     else:
         p[0] = [p[1]] if p[1] else []
+    
 
 def p_INSTRUCCION(p):
     '''INSTRUCCION : DEF_rule
@@ -93,10 +94,18 @@ def p_VALORVAR(p):
         p[0] = p[1]
     pass
 
+
 def p_FUNC(p):
-    '''FUNC : PALABRA LPAREN PARAM_LIST RPAREN LBRACE CUERPO RETORNO PALABRA PTO RBRACE PTO
-            | PALABRA LPAREN PARAM_LIST RPAREN LBRACE CUERPO RBRACE PTO'''
+    '''
+    FUNC : PALABRA LPAREN PARAM_LIST RPAREN LBRACE CUERPO RETORNO PALABRA PTO RBRACE PTO
+         | PALABRA LPAREN PARAM_LIST RPAREN LBRACE CUERPO RBRACE PTO
+    '''
+    global func_passed
+    func_passed = True
     traductor(p, trad_func)
+    pass
+
+
     pass
 
 def p_PARAM_LIST(p):
@@ -115,13 +124,21 @@ def p_COMENTARIO(p):
 
 def p_IF_rule(p):
     '''IF_rule : IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE ELSE LBRACE CUERPO RBRACE
-                | IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
-    traductor(p, trad_if)
+            | IF LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
+    if len(p) == 12:
+        p[0] = ''.join([p[1], p[2], p[3], p[4], p[5], ''.join(p[6]), p[7], p[8], p[9], ''.join(p[10]), p[11]])
+    elif len(p) == 8:
+        p[0] = ''.join([p[1], p[2], p[3], p[4], p[5], ''.join(p[6]), p[7]])
+    
+    if (func_passed == True):
+        traductor(p, trad_if)
     pass
 
 def p_WHILE_rule(p):
     '''WHILE_rule : WHILE LPAREN COMPARA RPAREN LBRACE CUERPO RBRACE'''
-    traductor(p, trad_while)
+    p[0] = ''.join([p[1], p[2], p[3], p[4], p[5], ''.join(p[6]), p[7]])
+    if func_passed == True:
+        traductor(p, trad_while)
     pass
 
 def p_COMPARA(p):
@@ -162,9 +179,7 @@ def p_EMPTY(p):
 
 def p_error(p):
     if p:
-        print(f"Error sintáctico en la línea: {p.lineno}. No se esperaba el token: '{p.value}'")
-        print(f"Token actual: {p.value}")
-        print(f"Esperado: {parser.tokens}")
+        print(f"Error sintáctico en la línea: {p.lineno+1}. No se esperaba el token: '{p.value}'")
     else:
         print("Error sintáctico: fin inesperado de entrada")
     raise Exception('syntax', 'error')

@@ -1,6 +1,6 @@
 from AL import lexer
 
-filename='lengFuente.txt'
+filename='ejAL_exito.txt'
 
 try:
     f = open(filename)
