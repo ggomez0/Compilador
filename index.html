@@ -1,0 +1,210 @@
+
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Converted Markdown</title>
+                    <style>
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f0f2f5;
+                    color: #333;
+                }
+                .container {
+                    width: 80%;
+                    max-width: 800px;
+                    margin: 2rem auto;
+                    background-color: #ffffff;
+                    padding: 2rem;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                .content {
+                    padding: 1rem;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                    color: #2c3e50;
+                    margin-top: 1.5rem;
+                    margin-bottom: 1rem;
+                }
+                p {
+                    font-size: 1rem;
+                    line-height: 1.6;
+                    color: #34495e;
+                    margin-bottom: 1rem;
+                }
+                a {
+                    color: #3498db;
+                    text-decoration: none;
+                    transition: color 0.3s ease;
+                }
+                a:hover {
+                    color: #2980b9;
+                    text-decoration: underline;
+                }
+                ul, ol {
+                    margin: 1rem 0;
+                    padding-left: 2rem;
+                }
+                li {
+                    margin-bottom: 0.5rem;
+                }
+                code {
+                    background-color: #f7f9fa;
+                    padding: 0.2rem 0.4rem;
+                    border-radius: 4px;
+                    font-family: 'Courier New', Courier, monospace;
+                }
+                pre code {
+                    display: block;
+                    padding: 1rem;
+                    overflow-x: auto;
+                    background-color: #f7f9fa;
+                    border-radius: 4px;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 1rem 0;
+                }
+                th, td {
+                    border: 1px solid #ddd;
+                    padding: 0.75rem;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                    color: #2c3e50;
+                    font-weight: bold;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                tr:hover {
+                    background-color: #f5f5f5;
+                }
+                img {
+                    width: 100%;
+                }
+            </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="content">
+                            <h2>Estructura del Lenguaje</h2>
+<h3>Principio y Fin</h3>
+<p>El programa comienza con la palabra reservada <code>EMPEZAR</code> y termina con <code>TERMINAR</code>.</p>
+<h3>Carácter de Fin de Línea</h3>
+<p>Cada línea de este lenguaje finaliza con el carácter <code>.</code></p>
+<h3>Librerías Externas</h3>
+<p>Este lenguaje permite incluir librerías externas. Se deben definir al inicio del archivo siguiendo la estructura:</p>
+<pre><code>extend(&quot;nombreDeLibreria.Extension&quot;)
+</code></pre>
+<p>Se pueden incluir varias librerías separadas por <code>;</code>.</p>
+<h3>Tipos de Datos Admitidos</h3>
+<p>Solo se admiten los siguientes tipos de datos:</p>
+<ul>
+<li><strong>entero</strong> (<code>int</code>)</li>
+<li><strong>texto</strong> (<code>String</code>)</li>
+<li><strong>decimal</strong> (<code>float</code>)</li>
+<li><strong>lógico</strong> (<code>bool</code>)</li>
+</ul>
+<h3>Definir Variables</h3>
+<p>Para definir variables se utiliza la estructura:</p>
+<pre><code>DEF tipo1 nombre1 := valor1
+</code></pre>
+<p>Donde <code>tipo</code> puede ser alguno de los tipos admitidos.</p>
+<h3>Asignación de Valores</h3>
+<p>Para asignar valores a una variable se utiliza el símbolo <code>:=</code> seguido por una variable o un valor de alguno de los tipos admitidos.</p>
+<h3>Funciones y Procedimientos</h3>
+<ul>
+<li>Las funciones tienen la forma:</li>
+</ul>
+<pre><code>nombre(tipo1 arg1; tipo2 arg2; …; tipon argn) retorno.
+</code></pre>
+<ul>
+<li>En el caso de los procedimientos:</li>
+</ul>
+<pre><code>nombre(tipo1 arg1; tipo2 arg2; …; tipon argn).
+</code></pre>
+<ul>
+<li>El procedimiento que se utiliza para definir los pines es:</li>
+</ul>
+<pre><code>DEF PIN(tipo:número)
+</code></pre>
+<p>Donde <code>numero</code> indica el PIN que se va a utilizar y <code>tipo</code> puede ser:</p>
+<ul>
+<li><code>PINOU</code>: salida</li>
+<li><code>PININ</code>: entrada</li>
+</ul>
+<h3>Comentarios</h3>
+<ul>
+<li>Los comentarios de línea se inician con <code>/*</code>.</li>
+<li>Los comentarios de bloque se encierran entre <code>//*</code> y <code>*//</code>.</li>
+</ul>
+<h3>Estructuras de Control</h3>
+<p>Este lenguaje admite las siguientes estructuras de control:</p>
+<ul>
+<li><strong>Condicional IF</strong>:<ul>
+<li><code>IF (condición) {}</code></li>
+<li><code>IF (condición) {} ELSE {}</code></li>
+</ul>
+</li>
+<li><strong>Bucle WHILE</strong>:<ul>
+<li><code>WHILE (condición) {}</code></li>
+</ul>
+</li>
+</ul>
+<h3>Palabras Reservadas y Funciones Predefinidas</h3>
+<p>Las palabras reservadas deben escribirse en <strong>MAYÚSCULAS</strong>. Además de las palabras mencionadas anteriormente, otras palabras reservadas son:</p>
+<ul>
+<li><strong>ADEL()</strong>: El robot avanza.</li>
+<li><strong>ATR()</strong>: El robot retrocede.</li>
+<li><strong>IZQ()</strong>: El robot gira en sentido antihorario.</li>
+<li><strong>DER()</strong>: El robot gira en sentido horario.</li>
+<li><strong>ESP(tiempo)</strong>: El robot espera un tiempo determinado.</li>
+<li><strong>FREN()</strong>: El robot se detiene.</li>
+</ul>
+<h2>Ejemplo</h2>
+<h2>Pseudocódigo (lengFuente.txt)</h2>
+<pre><code class="language-txt">EMPEZAR
+extend(&quot;nombreDeLibreria.Extension;servo.h&quot;).
+DEF entero MD1.
+DEF entero MD2:=3./*INICIO DE LA SECCION SETUP
+DEF PIN(PININ:MD1).
+DEF PIN(PINOU:MD2).
+/*FIN DE LA SECCION LOOP
+ADEL().
+ESP(10).
+IZQ().
+FREN().
+TERMINAR
+</code></pre>
+<h2>Resultado (Salida.ino)</h2>
+<pre><code class="language-cpp">#include &lt;nombreDeLibreria.Extension&gt;
+#include &lt;servo.h&gt;
+
+int MD1;
+int MD2 = 3;
+
+void setup() {
+    pinMode(MD1, INPUT);
+    pinMode(MD2, OUTPUT);
+}
+
+void loop() {
+    avanzar();
+    esperar(10);
+    giro_izquierda();
+    parar();
+}
+</code></pre>
+
+                        </div>
+                    </div>
+                </body>
+                </html>
+            
